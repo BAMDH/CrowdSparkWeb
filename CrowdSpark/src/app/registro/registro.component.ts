@@ -16,7 +16,7 @@ export class RegistroComponent {
   document = new FormGroup({
     fullName: new FormControl('', [Validators.required]),
     idNumber: new FormControl('', [Validators.required]),
-    regEmail: new FormControl('', [Validators.required]),
+    regEmail: new FormControl('', [Validators.required,this.validarEmail]),
     workArea: new FormControl('', [Validators.required]),
     initialAmount: new FormControl('', [Validators.required]),
     phone: new FormControl('', [Validators.required]),
@@ -45,6 +45,16 @@ export class RegistroComponent {
       console.log('Formulario inválido');
     }
   }
+/*Validador personalizado*/
+  validarEmail(control: AbstractControl): ValidationErrors | null {
+    const cedula = control.value;
+    if (!/^\d{9}$/.test(cedula)) { // Verifica si solo contiene números
+      return {
+        invalidEmail: true
+      };
+    }
+    return null;
+  }
   addUser(newUser: any) {
     
 
@@ -56,6 +66,7 @@ export class RegistroComponent {
         this.router.navigate(['/inicio'])
       })
       .catch((error) => {
+        alert("Llene todos los campos.");
         console.error('Error al agregar el usuario:', error);
       });
   }
