@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './registro.component.html',
   styleUrl: './registro.component.css'
 })
+
 export class RegistroComponent {
   newUser : any;
   emailError: string | null = null;  // Variable para el mensaje de error
@@ -31,8 +32,8 @@ export class RegistroComponent {
   constructor(
     private emailService: EmailService,
     private firestoreService: FirestoreService,
-    private router: Router) {
-  }
+    private router: Router
+  ) {}
 
   onSubmit() {
     this.validateEmailField();  // Validar correo antes de enviar el formulario
@@ -108,5 +109,8 @@ export class RegistroComponent {
           alert("Llene todos los campos.");
           console.error('Error al agregar el usuario:', error);
         });
+  }
+  cambiarPantalla() {
+    this.router.navigate(['/inicio']);
   }
 }

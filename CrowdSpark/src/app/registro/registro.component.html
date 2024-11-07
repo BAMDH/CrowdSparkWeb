@@ -1,6 +1,6 @@
 <div class="register-container">
     <div class="header">
-        <span onclick="window.location.href='inicio.html'" id="backArrow">←</span>
+        <span (click)="cambiarPantalla()" id="backArrow">←</span>
         <img src="images/marca.png" alt="Marca" class="logo">
     </div>
     <form [formGroup]="document" (ngSubmit)="onSubmit()">

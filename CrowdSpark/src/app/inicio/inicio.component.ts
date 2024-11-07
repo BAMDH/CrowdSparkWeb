@@ -1,65 +1,48 @@
 import { Component } from '@angular/core';
-import { EmailService } from '../email.service';
+import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { FirestoreService } from '../firestore.service';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-inicio',
   standalone: true,
-  imports: [],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './inicio.component.html',
   styleUrl: './inicio.component.css'
 })
+
 export class InicioComponent {
-
   title = 'CrowdSpark';
-  items: any[] = [];
-  constructor(private emailService: EmailService,private firestoreService: FirestoreService,
-    private router: Router) {}
- 
-  sendEmail(to: string,subject: string,text: string) {
-    this.emailService.sendEmail(to, subject, text).subscribe(
-      response => {
-        console.log('Correo enviado:', response);
+  loginForm = new FormGroup({
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', Validators.required)
+  });
+  loginError: string | null = null;
+
+  constructor(
+    private firestoreService: FirestoreService,
+    private router: Router  
+  ) {}
+
+  onLogin() {
+    const email = this.loginForm.get('email')?.value;
+    const password = this.loginForm.get('password')?.value;
+
+    this.firestoreService.getCollectionData('Usuarios').subscribe(users => {
+      const user = users.find((u: any) => u.correo === email && u.password === password);
       
-      },
-      error => {
-        console.error('Error al enviar correo:', error);
-       
+      if (user) {
+        // Redirige al usuario si el login es exitoso
+        this.router.navigate(['/pantalla-principal']);
+      } else {
+        // Muestra un mensaje de error si el login falla
+        this.loginError = 'Correo o contraseña incorrectos.';
       }
-    );
+    });
   }
 
-
- cambiarPantalla() {
-  console.log("entra aqui")
-  this.router.navigate(['/registro']);
-}
-
-  prueba(){
-    //this.sendEmail("brandon04e@gmail.com","Buajaja","Hola")
-    const newUser = {
-      area: "papas",
-      cedula: "3",
-      correo: "azu@estudiantec.cr",
-      dinero: "555",
-      estado: "activo",
-      nombre: "Azu",
-      password: "09999",
-      telefono: "23456"
-    };
-    
+  cambiarPantalla() {
+    this.router.navigate(['/registro']);
   }
-  addUser(newUser: any) {
-    
-
-    // Llamamos al servicio para agregar el documento
-    this.firestoreService.addDocument('Usuarios', newUser)
-      .then(() => {
-        console.log('Usuario agregado correctamente');
-      })
-      .catch((error) => {
-        console.error('Error al agregar el usuario:', error);
-      });
-  }
-
 }
