@@ -10,12 +10,15 @@
         </div>
         <div class="form-group">
             <label for="idNumber">Cédula:</label>
-            <input type="tel" id="idNumber" formControlName="idNumber" required>
+            <input type="number" id="idNumber" formControlName="idNumber" required>
         </div>
         <div class="form-group">
             <label for="regEmail">Correo:</label>
             <input type="email" id="regEmail" formControlName="regEmail" required>
         </div>
+        <div *ngIf="emailError">
+            <p class="error-message">{{ emailError }}</p>
+        </div>        
         <div class="form-group">
             <label for="workArea">Área de Trabajo:</label>
             <input type="text" id="workArea" formControlName="workArea" required>
@@ -24,9 +27,12 @@
             <label for="initialAmount">Cantidad Inicial de Dinero:</label>
             <input type="number" id="initialAmount" formControlName="initialAmount" required>
         </div>
+        <div *ngIf="document.get('initialAmount')?.hasError('invalidAmount') && document.get('initialAmount')?.touched">
+            El monto inicial debe ser un número positivo.
+          </div>
         <div class="form-group">
             <label for="phone">Teléfono:</label>
-            <input type="tel" id="phone" formControlName="phone" required>
+            <input type="number" id="phone" formControlName="phone" required>
         </div>
         <div class="form-group">
             <label for="regPassword">Contraseña:</label>
@@ -35,6 +41,9 @@
         <div class="form-group">
             <label for="confirmPassword">Confirmación de contraseña:</label>
             <input type="password" id="confirmPassword" formControlName="confirmPassword" required>
+        </div>
+        <div *ngIf="passwordError">
+            {{ passwordError }}
         </div>
         <button type="submit" >Registrarse</button>
     </form>
