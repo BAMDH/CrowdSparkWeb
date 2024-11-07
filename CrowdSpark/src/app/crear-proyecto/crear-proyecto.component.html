@@ -1,43 +1,57 @@
-<div class="create-project-container">
-    <div class="header">
-        <span (click)="cambiarPantalla()" id="backArrow">←</span>
-        <img src="images/marca.png" alt="Marca" class="logo">
+<form [formGroup]="document" (ngSubmit)="onSubmit()">
+
+    <div class="form-group">
+        <label for="projectName">Nombre de Proyecto:</label>
+        <input type="text" id="projectName" formControlName="projectName" required>
     </div>
-    <form id="createProjectForm">
-        <div class="form-group">
-            <label for="projectName">Nombre de Proyecto:</label>
-            <input type="text" id="projectName" name="projectName" required>
-        </div>
-        <div class="form-group">
-            <label for="projectDescription">Descripción:</label>
-            <textarea id="projectDescription" name="projectDescription" required></textarea>
-        </div>
-        <div class="form-group">
-            <label for="fundingGoal">Objetivo de financiación:</label>
-            <input type="number" id="fundingGoal" name="fundingGoal" required>
-        </div>
-        <div class="form-group">
-            <label for="category">Categoría:</label>
-            <select id="category" name="category" required>
-                <option value="tecnologia">Tecnología</option>
-                <option value="salud">Salud</option>
-                <option value="educacion">Educación</option>
-                <option value="medio ambiente">Medio Ambiente</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="dueDate">Fecha límite:</label>
-            <input type="date" id="dueDate" name="dueDate" required>
-        </div>
-        <div class="form-group">
-            <label>Imagen:</label>
-        </div>
-        <div class="form-group image-container">
-            <!-- Input para subir archivo, oculto visualmente -->
-            <input type="file" id="uploadInput" accept="image/*" style="display: none;" onchange="previewImage(event)">
-            <!-- Imagen de "Upload" que se usará como botón -->
-            <img src="images/Upload.png" alt="Upload" id="uploadImage" class="upload-image" onclick="document.getElementById('uploadInput').click()">
-        </div>
-        <button type="submit">Crear Proyecto</button>
-    </form>
-</div>
+    <div *ngIf="document.get('projectName')?.hasError('required') && document.get('projectName')?.touched">
+        El nombre del proyecto es obligatorio.
+    </div>
+
+    <div class="form-group">
+        <label for="projectDescription">Descripción:</label>
+        <textarea id="projectDescription" formControlName="projectDescription" required></textarea>
+    </div>
+    <div *ngIf="document.get('projectDescription')?.hasError('required') && document.get('projectDescription')?.touched">
+        La descripción es obligatoria.
+    </div>
+    
+    <div class="form-group">
+        <label for="fundingGoal">Objetivo de financiación:</label>
+        <input type="number" id="fundingGoal" formControlName="fundingGoal" required>
+    </div>
+    <div *ngIf="document.get('fundingGoal')?.hasError('invalidAmount') && document.get('fundingGoal')?.touched">
+        El monto inicial debe ser un número positivo.
+    </div>
+
+    <div class="form-group">
+        <label for="category">Categoría:</label>
+        <select id="category" formControlName="category" required>
+            <option value="tecnologia">Tecnología</option>
+            <option value="salud">Salud</option>
+            <option value="educacion">Educación</option>
+            <option value="medio ambiente">Medio Ambiente</option>
+        </select>
+    </div>
+    <div *ngIf="document.get('category')?.hasError('required') && document.get('category')?.touched">
+        La categoría es obligatoria.
+    </div>
+      
+    <div class="form-group">
+        <label for="dueDate">Fecha límite:</label>
+        <input type="date" id="dueDate" formControlName="dueDate" required>
+    </div>
+    <div *ngIf="document.get('dueDate')?.hasError('required') && document.get('dueDate')?.touched">
+        La fecha límite es obligatoria.
+    </div>
+    <div class="form-group">
+        <label>Imagen:</label>
+    </div>
+    <div class="form-group image-container">
+        <!-- Input para subir archivo, oculto visualmente -->
+        <input type="file" id="uploadInput" accept="image/*" style="display: none;" onchange="previewImage(event)">
+        <!-- Imagen de "Upload" que se usará como botón -->
+        <img src="images/Upload.png" alt="Upload" id="uploadImage" class="upload-image" onclick="document.getElementById('uploadInput').click()">
+    </div>
+    <button type="submit">Crear Proyecto</button>
+</form>
