@@ -1,0 +1,53 @@
+<div class="edit-project-container">
+    <div class="header">
+        <span onclick="window.location.href='pantallaPrincipal.html'" id="backArrow">←</span>
+        <img src="images/marca.png" alt="Marca" class="logo">
+    </div>
+    <form id="editProjectForm">
+        <div class="form-group">
+            <label for="projectSelect">Selecciona un Proyecto:</label>
+            <select id="projectSelect" name="projectSelect" required>
+                <option value="">-- Selecciona un Proyecto --</option>
+                <option value="proyecto1">Proyecto 1</option>
+                <option value="proyecto2">Proyecto 2</option>
+                <option value="proyecto3">Proyecto 3</option>
+                <!-- Agrega más proyectos según sea necesario -->
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="projectName">Nombre de Proyecto:</label>
+            <input type="text" id="projectName" name="projectName" required>
+        </div>
+        <div class="form-group">
+            <label for="projectDescription">Descripción:</label>
+            <textarea id="projectDescription" name="projectDescription" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="fundingGoal">Objetivo de financiación:</label>
+            <input type="number" id="fundingGoal" name="fundingGoal" required>
+        </div>
+        <div class="form-group">
+            <label for="category">Categoría:</label>
+            <select id="category" name="category" required>
+                <option value="tecnologia">Tecnología</option>
+                <option value="salud">Salud</option>
+                <option value="educacion">Educación</option>
+                <option value="medio ambiente">Medio Ambiente</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="dueDate">Fecha límite:</label>
+            <input type="date" id="dueDate" name="dueDate" required>
+        </div>
+        <div class="form-group">
+            <label>Imagen:</label>
+        </div>
+        <div class="form-group image-container">
+            <!-- Input para subir archivo, oculto visualmente -->
+            <input type="file" id="uploadInput" accept="image/*" style="display: none;" onchange="previewImage(event)">
+            <!-- Imagen de "Upload" que se usará como botón -->
+            <img src="images/Upload.png" alt="Upload" id="uploadImage" class="upload-image" onclick="document.getElementById('uploadInput').click()">
+        </div>
+        <button type="submit">Guardar Cambios</button>
+    </form>
+</div>
