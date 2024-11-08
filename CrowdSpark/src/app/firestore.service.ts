@@ -45,4 +45,10 @@ export class FirestoreService {
     const q = query(proyectosRef, where('idEncargado', '==', correo));
     return collectionData(q); 
   }
+
+  getUsuariosByCorreo(correo: string) {
+    const collectionRef = collection(this.firestore, 'Usuarios');
+    const q = query(collectionRef, where("correo", "==", correo)); // Filtrar por correo
+    return getDocs(q); // Devuelve los documentos encontrados
+  }
 }
