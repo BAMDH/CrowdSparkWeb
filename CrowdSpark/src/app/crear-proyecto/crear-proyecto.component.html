@@ -1,5 +1,5 @@
 <form [formGroup]="document" (ngSubmit)="onSubmit()">
-
+    <span (click)="cambiarPantalla()" id="backArrow">←</span>
     <div class="form-group">
         <label for="projectName">Nombre de Proyecto:</label>
         <input type="text" id="projectName" formControlName="projectName" required>

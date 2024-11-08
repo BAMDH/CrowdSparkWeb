@@ -1,6 +1,6 @@
 // src/app/firestore.service.ts
 import { Injectable } from '@angular/core';
-import { Firestore, collection, doc, getDoc, setDoc, addDoc, collectionData } from '@angular/fire/firestore';
+import { Firestore, collection, doc, getDoc, setDoc, addDoc, collectionData, query, where, getDocs } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -31,5 +31,18 @@ export class FirestoreService {
   updateDocument(collectionName: string, docId: string, data: any) {
     const docRef = doc(this.firestore, `${collectionName}/${docId}`);
     return setDoc(docRef, data, { merge: true });
+  }
+
+  getProjectByName(collectionName: string, name: string) {
+    const collectionRef = collection(this.firestore, collectionName);
+    const q = query(collectionRef, where("nombre", "==", name)); // Filtrar por projectName
+    return getDocs(q);
+  }
+
+  // Obtener proyectos filtrados por idEncargado y correo
+  getProyectosByEncargado(correo: string): Observable<any[]> {
+    const proyectosRef = collection(this.firestore, 'Proyecto'); 
+    const q = query(proyectosRef, where('idEncargado', '==', correo));
+    return collectionData(q); 
   }
 }
