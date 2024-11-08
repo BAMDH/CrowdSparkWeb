@@ -54,6 +54,7 @@ export class RegistroComponent {
       
     } else {
       console.log('Formulario inválido');
+      alert('Formulario inválido')
     }
   }
 

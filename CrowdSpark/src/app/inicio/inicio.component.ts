@@ -14,13 +14,18 @@ import { UsuarioService } from '../services/usuario.service';
 })
 
 export class InicioComponent {
+
   title = 'CrowdSpark';
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', Validators.required)
   });
   loginError: string | null = null;
+  imagePath = '../images/';
 
+  ngOnInit() {
+    console.log('Ruta de imágenes:', this.imagePath); // Imprime la ruta en la consola
+  }
   constructor(
     private usuarioService: UsuarioService,
     private firestoreService: FirestoreService,
