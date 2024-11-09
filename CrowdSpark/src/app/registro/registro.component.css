@@ -26,12 +26,13 @@
     width: 90%;
     max-width: 400px;
     text-align: center;
+    margin: 50px auto; /* Centrado en la pantalla */
   }
   
   .logo {
-    width: 100%; 
-    max-width: 200px;
-    margin-bottom: 20px; 
+    width: 80%; 
+    max-width: 150px;
+    margin: 50px auto; /* Centrado en la pantalla */
     align-self: center; /* Centra el logo horizontalmente */
   }
   

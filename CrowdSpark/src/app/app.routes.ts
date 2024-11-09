@@ -7,6 +7,7 @@ import {EditarUsuarioComponent} from './editar-usuario/editar-usuario.component'
 import {PantallaPrincipalComponent} from './pantalla-principal/pantalla-principal.component'
 import {HistorialComponent} from './historial/historial.component'
 import {RealizarDonacionComponent} from './realizar-donacion/realizar-donacion.component'
+import {VerProyectoComponent} from './ver-proyecto/ver-proyecto.component'
 
 export const routes: Routes = [
     {path: 'registro', component: RegistroComponent},
@@ -16,5 +17,6 @@ export const routes: Routes = [
     {path: 'pantalla-principal', component: PantallaPrincipalComponent},
     {path: 'inicio', component: InicioComponent},
     {path: 'historial', component: HistorialComponent},
-    {path: 'realizar-donacion', component: RealizarDonacionComponent},
+    {path: 'realizar-donacion/:nombre', component: RealizarDonacionComponent},
+    {path: 'ver-proyecto/:nombre', component: VerProyectoComponent },
     {path: '', redirectTo: '/inicio', pathMatch: 'full'}];

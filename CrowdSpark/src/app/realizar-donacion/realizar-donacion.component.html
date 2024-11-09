@@ -1,1 +1,29 @@
-<p>realizar-donacion works!</p>
+<div class="donation-container">
+    <div class="header">
+        <span (click)="volver()" id="backArrow">←</span>
+        <img src="/images/marca.png" alt="Logo" class="logo">
+    </div>
+    <form [formGroup]="donationForm" (ngSubmit)="onSubmit()">
+        <h1>Donación</h1>
+        
+        <!-- Campo para monto de la donación -->
+        <div class="form-group">
+            <label for="donationAmount">Monto de la Donación:</label>
+            <input 
+                type="number" 
+                id="donationAmount" 
+                formControlName="donationAmount" 
+                placeholder="Ingrese monto" 
+                min="1" 
+                required>
+        </div>
+
+        <!-- Mensaje de error si el monto es inválido -->
+        <div *ngIf="donationForm.get('donationAmount')?.hasError('invalidAmount') && donationForm.get('donationAmount')?.touched">
+            El monto debe ser un número positivo.
+        </div>
+
+        <!-- Botón para donar -->
+        <button type="submit" [disabled]="donationForm.invalid">Donar</button>
+    </form>
+</div>

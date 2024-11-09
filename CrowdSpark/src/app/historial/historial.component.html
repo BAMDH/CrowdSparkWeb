@@ -17,18 +17,20 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Nombre del Donante</th>
                         <th>Proyecto</th>
-                        <th>Monto</th>
+                        <th>Donante</th>
+                        <th>Monto donado</th>
                         <th>Teléfono</th>
+                        <th>Fecha</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let donacion of donaciones">
-                        <td>{{ donacion.nombreDonante }}</td>
                         <td>{{ donacion.nombreProyecto }}</td>
-                        <td>${{ donacion.Monto }}</td>
+                        <td>{{ donacion.nombreDonante }}</td>
+                        <td>${{ donacion.monto }}</td>
                         <td>{{ donacion.telefono }}</td>
+                        <td>{{ donacion.fechaDonacion | date:'dd/MM/yyyy, h:mm:ss a' }}</td>
                     </tr>
                 </tbody>
             </table>

@@ -57,11 +57,8 @@ export class PantallaPrincipalComponent {
     this.ordenarProyectos();  // Reordenar los proyectos según el filtro
   }
   
-  donar(proyecto: any) {
-    console.log(`Donación iniciada para el proyecto: ${proyecto.nombre}`);
-    // Lógica para manejar la donación, como abrir un formulario modal,
-    // actualizar la recaudación, o navegar a otra pantalla
-    // this.router.navigate(['/donar', proyecto.id]); // Ejemplo de navegación a página de donación
+  verProyecto(proyecto: any) {
+    this.router.navigate(['/ver-proyecto', proyecto.nombre]);  // Pasar el nombre del proyecto como parámetro
   }
 
   crearProyecto() {
