@@ -50,10 +50,10 @@
     <div class="form-group image-container">
         <!-- Input para subir archivo, oculto visualmente -->
         <input type="file" id="uploadInput" accept="image/*" style="display: none;" (change)="uploadImage($event)">
-        <!-- Imagen de "Upload" que se usará como botón -->
-        <img src="images/Upload.png" alt="Upload" id="uploadImage" class="upload-image" onclick="document.getElementById('uploadInput').click()">
-        <!-- Vista previa de la imagen si fue seleccionada -->
-        <img *ngIf="imagePreview" [src]="imagePreview" alt="Vista previa de la imagen" class="preview-image">
+        <!-- Imagen de "Upload" que se usa como botón, visible solo si no hay imagen seleccionada -->
+        <img *ngIf="!imagePreview" src="images/Upload.png" alt="Upload" id="uploadImage" class="upload-image" onclick="document.getElementById('uploadInput').click()">
+        <!-- Vista previa de la imagen seleccionada, visible solo si hay una imagen cargada -->
+        <img *ngIf="imagePreview" [src]="imagePreview" alt="Vista previa de la imagen" class="preview-image" onclick="document.getElementById('uploadInput').click()">
     </div>
     <button type="submit">Crear Proyecto</button>
 </form>

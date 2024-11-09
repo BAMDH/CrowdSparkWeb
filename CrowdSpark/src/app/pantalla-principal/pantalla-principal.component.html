@@ -14,12 +14,29 @@
     <!-- Contenido principal a la derecha -->
     <div class="main-content">
         <h1 class="title">Proyectos</h1>
+        
         <div class="filter-section">
             <p class="filter-text">Filtrar</p>
-            <select id="filterDropdown">
-                <option value="nombre">Nombre</option>
-                <option value="fecha">Fecha</option>
+            <select id="filterDropdown" (change)="onFilterChange($event)">
+              <option value="nombre">Nombre</option>
+              <option value="categoria">Categoría</option>
+              <option value="objetivoFinanciacion">Objetivo</option>
+              <option value="monto">Recaudado</option>
             </select>
+        </div>
+
+        <!-- Sección de proyectos -->
+        <div class="projects-container">
+            <div *ngFor="let proyecto of proyectos" class="project-card">
+                <img [src]="proyecto.imagen" alt="Imagen del proyecto" class="project-image">
+                <h3 class="project-title">{{ proyecto.nombre }}</h3>
+                <p><strong>Categoría:</strong> {{ proyecto.categoria }}</p>
+                <p><strong>Descripción:</strong> {{ proyecto.descripcion }}</p>
+                <p><strong>Fecha Límite:</strong> {{ proyecto.fechaLimite }}</p>
+                <p><strong>Monto:</strong> ${{ proyecto.monto }}</p>
+                <p><strong>Objetivo de Financiación:</strong> ${{ proyecto.objetivoFinanciacion }}</p>
+                <button (click)="donar(proyecto)">Donar</button>
+            </div>
         </div>
     </div>
 </div>
