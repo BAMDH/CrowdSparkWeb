@@ -71,7 +71,7 @@ export class PantallaPrincipalComponent {
     this.router.navigate(['/editar-proyecto']);
   }
   historial() {
-    this.router.navigate(['/registro']);
+    this.router.navigate(['/historial']);
   }
   editarUsuario() {
     this.router.navigate(['/editar-usuario']);

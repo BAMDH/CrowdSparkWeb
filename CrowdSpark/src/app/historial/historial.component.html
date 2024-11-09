@@ -1,0 +1,37 @@
+<div class="dashboard-container">
+    <div class="main-content">
+        <!-- Sección de logo y título -->
+        <div class="header-section">
+            <img src="images/marca.png" alt="Marca" class="center-logo">
+            <h2 class="title">Historial Donaciones</h2>
+        </div>
+        <span (click)="cambiarPantalla()" id="backArrow">←</span>
+
+        <!-- Cuadro de texto estático debajo del título -->
+        <div class="static-text-box">
+            <p>Este es el historial de donaciones realizadas.</p>
+        </div>
+
+        <!-- Tabla para mostrar las donaciones -->
+        <div class="donations-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre del Donante</th>
+                        <th>Proyecto</th>
+                        <th>Monto</th>
+                        <th>Teléfono</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let donacion of donaciones">
+                        <td>{{ donacion.nombreDonante }}</td>
+                        <td>{{ donacion.nombreProyecto }}</td>
+                        <td>${{ donacion.Monto }}</td>
+                        <td>{{ donacion.telefono }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
