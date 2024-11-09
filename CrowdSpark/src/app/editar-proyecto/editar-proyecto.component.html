@@ -1,65 +1,57 @@
-<div *ngIf="proyecto; else loading">
-    <form [formGroup]="document">
-        <span (click)="cambiarPantalla()" id="backArrow">←</span>
-        
-        <div class="form-group">
-            <label for="proyectoSelect">Seleccionar Proyecto:</label>
-            <select id="proyectoSelect" (change)="onSelectProyecto($event)">
-                <option *ngFor="let proyecto of proyectos" [value]="proyecto.id">
-                  {{ proyecto.nombre }}
-                </option>
-            </select>
-        </div>
+<form [formGroup]="document">
+    <span (click)="cambiarPantalla()" id="backArrow">←</span>
+    
+    <div class="form-group">
+        <label for="proyectoSelect">Seleccionar Proyecto:</label>
+        <select id="proyectoSelect" name="proyectoSelect">
+          <option *ngFor="let proyecto of proyectos" [value]="proyecto">{{ proyecto }}</option>
+        </select>
+    </div>
 
-        <div class="form-group">
-            <label for="projectName">Nombre de Proyecto:</label>
-            <input type="text" id="projectName" formControlName="projectName" required>
-        </div>
+    <div class="form-group">
+        <label for="projectName">Nombre de Proyecto:</label>
+        <input type="text" id="projectName" formControlName="projectName" required>
+    </div>
 
-        <div class="form-group">
-            <label for="projectDescription">Descripción:</label>
-            <textarea id="projectDescription" formControlName="projectDescription" required></textarea>
-        </div>
-        
-        <div class="form-group">
-            <label for="fundingGoal">Objetivo de financiación:</label>
-            <input type="number" id="fundingGoal" formControlName="fundingGoal" required>
-        </div>
-        <div *ngIf="document.get('fundingGoal')?.hasError('invalidAmount') && document.get('fundingGoal')?.touched">
-            El monto inicial debe ser un número positivo.
-        </div>
+    <div class="form-group">
+        <label for="projectDescription">Descripción:</label>
+        <textarea id="projectDescription" formControlName="projectDescription" required></textarea>
+    </div>
+    
+    <div class="form-group">
+        <label for="fundingGoal">Objetivo de financiación:</label>
+        <input type="number" id="fundingGoal" formControlName="fundingGoal" required>
+    </div>
+    <div *ngIf="document.get('fundingGoal')?.hasError('invalidAmount') && document.get('fundingGoal')?.touched">
+        El monto inicial debe ser un número positivo.
+    </div>
 
-        <div class="form-group">
-            <label for="category">Categoría:</label>
-            <select id="category" formControlName="category" required>
-                <option value="tecnologia">Tecnología</option>
-                <option value="salud">Salud</option>
-                <option value="educacion">Educación</option>
-                <option value="medio ambiente">Medio Ambiente</option>
-            </select>
-        </div>
+    <div class="form-group">
+        <label for="category">Categoría:</label>
+        <select id="category" formControlName="category" required>
+            <option value="tecnologia">Tecnología</option>
+            <option value="salud">Salud</option>
+            <option value="educacion">Educación</option>
+            <option value="medio ambiente">Medio Ambiente</option>
+        </select>
+    </div>
 
-        <div class="form-group">
-            <label for="dueDate">Fecha límite:</label>
-            <input type="date" id="dueDate" formControlName="dueDate" required>
-        </div>
+    <div class="form-group">
+        <label for="dueDate">Fecha límite:</label>
+        <input type="date" id="dueDate" formControlName="dueDate" required>
+    </div>
 
-        <div class="form-group">
-            <label>Imagen:</label>
-        </div>
-        
-        <div class="form-group image-container">
-            <!-- Input para subir archivo, oculto visualmente -->
-            <input type="file" id="uploadInput" accept="image/*" style="display: none;" (change)="uploadImage($event)">
-            <!-- Imagen de "Upload" que se usa como botón, visible solo si no hay imagen seleccionada -->
-            <img *ngIf="!imagePreview" src="images/Upload.png" alt="Upload" id="uploadImage" class="upload-image" onclick="document.getElementById('uploadInput').click()">
-            <!-- Vista previa de la imagen seleccionada, visible solo si hay una imagen cargada -->
-            <img *ngIf="imagePreview" [src]="imagePreview" alt="Vista previa de la imagen" class="preview-image" onclick="document.getElementById('uploadInput').click()">
-        </div>       
-        <button type="button" (click)="updateProyecto()">Actualizar Proyecto</button>
-    </form>
-</div>
-
-<ng-template #loading>
-    <p>Cargando proyecto...</p>
-</ng-template>
+    <div class="form-group">
+        <label>Imagen:</label>
+    </div>
+    
+    <div class="form-group image-container">
+    <!-- Input para subir archivo, oculto visualmente -->
+    <input type="file" id="uploadInput" accept="image/*" style="display: none;" (change)="uploadImage($event)">
+    <!-- Imagen de "Upload" que se usa como botón, visible solo si no hay imagen seleccionada -->
+    <img *ngIf="!imagePreview" src="images/Upload.png" alt="Upload" id="uploadImage" class="upload-image" onclick="document.getElementById('uploadInput').click()">
+    <!-- Vista previa de la imagen seleccionada, visible solo si hay una imagen cargada -->
+    <img *ngIf="imagePreview" [src]="imagePreview" alt="Vista previa de la imagen" class="preview-image" onclick="document.getElementById('uploadInput').click()">
+</div>       
+    <button type="button" (click)="updateProyecto()">Actualizar Proyecto</button>
+</form>
