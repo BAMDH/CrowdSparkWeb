@@ -1,0 +1,31 @@
+<div class="event-admin-container">
+    <h2>{{ title }}</h2>
+    <form [formGroup]="eventForm" (ngSubmit)="onCreateEvent()">
+        
+        <div class="form-group">
+            <label for="eventName">Nombre del Evento:</label>
+            <input id="eventName" formControlName="eventName" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="presentationType">Tipo de Presentación:</label>
+            <select id="presentationType" formControlName="presentationType">
+                <option value="presencial">Presencial</option>
+                <option value="virtual">Virtual</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="participants">Registro de Participantes:</label>
+            <input id="participants" formControlName="participants" placeholder="Ej. 50 participantes" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="materials">Material Descargable:</label>
+            <input id="materials" formControlName="materials" placeholder="Link o archivo" required>
+        </div>
+        
+        <button type="submit" [disabled]="eventForm.invalid">Crear Evento</button>
+        <button type="button" (click)="goBack()">Volver</button>
+    </form>
+</div>

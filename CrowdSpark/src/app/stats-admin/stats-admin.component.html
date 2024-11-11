@@ -1,0 +1,27 @@
+<div class="stats-admin-container">
+    <h2>{{ title }}</h2>
+    <div class="stats-cards">
+        <div class="stat-card">
+            <h3>Total de Proyectos</h3>
+            <p>{{ totalProjects }}</p>
+        </div>
+        <div class="stat-card">
+            <h3>Total de Donaciones</h3>
+            <p>{{ totalDonations }}</p>
+        </div>
+        <div class="stat-card">
+            <h3>Promedio de Donación</h3>
+            <p>{{ averageDonation }}</p>
+        </div>
+        <div class="stat-card">
+            <h3>Usuarios Activos</h3>
+            <p>{{ activeUsers }}</p>
+        </div>
+        <div class="stat-card">
+            <h3>Proyectos Completados</h3>
+            <p>{{ completedProjects }}</p>
+        </div>
+    </div>
+
+    <button (click)="goBack()">Volver</button>
+</div>
