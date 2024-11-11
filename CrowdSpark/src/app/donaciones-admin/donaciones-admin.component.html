@@ -1,0 +1,21 @@
+<div class="donation-history-container">
+    <h2>{{ title }}</h2>
+    <table class="donation-table">
+        <thead>
+            <tr>
+                <th>Proyecto</th>
+                <th>Cantidad</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let donation of donations">
+                <td>{{ donation.projectName }}</td>
+                <td>{{ donation.amount }}</td>
+                <td>{{ donation.date }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button (click)="goBack()">Volver</button>
+</div>

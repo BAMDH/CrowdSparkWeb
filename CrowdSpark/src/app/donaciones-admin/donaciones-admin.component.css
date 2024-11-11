@@ -1,0 +1,21 @@
+.donation-history-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.donation-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.donation-table th, .donation-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.donation-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}

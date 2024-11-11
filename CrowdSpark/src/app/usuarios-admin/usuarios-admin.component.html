@@ -1,0 +1,21 @@
+<div class="user-list-container">
+    <h2>{{ title }}</h2>
+    <table class="user-table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Rol</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of users">
+                <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.role }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button (click)="goBack()">Volver</button>
+</div>

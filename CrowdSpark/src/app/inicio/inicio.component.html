@@ -18,7 +18,7 @@
             {{ loginError }}
         </div>      
 
-        <a href="#" id="adminLink">Ingresar como administrador</a>
+        <button type="button" (click)="onAdminLogin()">Ingresar como administrador</button>
         <p>¿No tiene cuenta?</p>
         <button type="button" (click)="cambiarPantalla()">Registrarse</button>
     </form>

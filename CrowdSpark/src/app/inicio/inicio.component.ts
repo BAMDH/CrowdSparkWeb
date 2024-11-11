@@ -52,6 +52,10 @@ export class InicioComponent {
     }
   }
 
+  onAdminLogin() {
+    this.router.navigate(['/main-admin']);
+  }
+
   cambiarPantalla() {
     this.router.navigate(['/registro']);
   }

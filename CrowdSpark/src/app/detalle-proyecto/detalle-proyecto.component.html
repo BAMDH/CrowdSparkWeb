@@ -1,0 +1,18 @@
+<div *ngIf="proyecto" class="project-detail-container">
+    <span (click)="volver()" id="backArrow">← Volver</span>
+
+    <div class="project-detail">
+        <div class="project-header">
+            <h1>{{ proyecto.nombre }}</h1>
+            <img [src]="proyecto.imagen" alt="Imagen del proyecto" class="project-image">
+        </div>
+        
+        <div class="project-info">
+            <p><strong>Categoría:</strong> {{ proyecto.categoria }}</p>
+            <p><strong>Descripción:</strong> {{ proyecto.descripcion }}</p>
+            <p><strong>Fecha Límite:</strong> {{ proyecto.fechaLimite }}</p>
+            <p><strong>Monto:</strong> ${{ proyecto.monto }}</p>
+            <p><strong>Objetivo de Financiación:</strong> ${{ proyecto.objetivoFinanciacion }}</p>
+        </div>
+    </div>
+</div>
