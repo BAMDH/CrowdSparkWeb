@@ -14,6 +14,7 @@ import { DonacionesAdminComponent } from './donaciones-admin/donaciones-admin.co
 import { UsuariosAdminComponent } from './usuarios-admin/usuarios-admin.component';
 import { StatsAdminComponent } from './stats-admin/stats-admin.component';
 import { EventsAdminComponent } from './events-admin/events-admin.component';
+import { PaginaMentorComponent } from './pagina-mentor/pagina-mentor.component';
 
 export const routes: Routes = [
     {path: 'registro', component: RegistroComponent},
@@ -31,4 +32,5 @@ export const routes: Routes = [
     {path: 'usuarios-admin', component: UsuariosAdminComponent },
     {path: 'stats-admin', component: StatsAdminComponent },
     {path: 'events-admin', component: EventsAdminComponent },
+    {path: 'pagina-mentor', component: PaginaMentorComponent },
     {path: '', redirectTo: '/inicio', pathMatch: 'full'}];

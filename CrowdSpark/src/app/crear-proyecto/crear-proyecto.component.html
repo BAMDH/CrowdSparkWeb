@@ -55,5 +55,9 @@
         <!-- Vista previa de la imagen seleccionada, visible solo si hay una imagen cargada -->
         <img *ngIf="imagePreview" [src]="imagePreview" alt="Vista previa de la imagen" class="preview-image" onclick="document.getElementById('uploadInput').click()">
     </div>
+
+    <!-- Botón para solicitar mentor -->
+    <button type="button" (click)="solicitarMentor()">Solicitar Mentor</button>
+    
     <button type="submit">Crear Proyecto</button>
 </form>

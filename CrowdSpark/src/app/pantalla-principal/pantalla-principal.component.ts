@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ReactiveFormsModule, FormGroup, FormControl, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
-import { FirestoreService } from '../firestore.service';
 import { Router } from '@angular/router';
+import { FirestoreService } from '../firestore.service';
+import { ReactiveFormsModule, FormGroup, FormControl, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './pantalla-principal.component.html',
-  styleUrl: './pantalla-principal.component.css'
+  styleUrls: ['./pantalla-principal.component.css']
 })
 
 export class PantallaPrincipalComponent {
@@ -64,16 +64,25 @@ export class PantallaPrincipalComponent {
   crearProyecto() {
     this.router.navigate(['/crear-proyecto']);
   }
+
   editarProyecto() {
     this.router.navigate(['/editar-proyecto']);
   }
+
   historial() {
     this.router.navigate(['/historial']);
   }
+
   editarUsuario() {
     this.router.navigate(['/editar-usuario']);
   }
+
   cerrarSesion() {
     this.router.navigate(['/inicio']);
+  }
+
+  // Método para redirigir a la página de mentor
+  irAPaginaMentor() {
+    this.router.navigate(['/pagina-mentor']);
   }
 }

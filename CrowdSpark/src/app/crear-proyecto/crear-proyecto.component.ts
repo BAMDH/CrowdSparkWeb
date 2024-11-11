@@ -90,6 +90,15 @@ export class CrearProyectoComponent {
       });
   }
 
+  solicitarMentor() {
+    // Lógica para solicitar mentor
+    console.log("Se ha solicitado un mentor.");
+    alert("¡Mentor solicitado exitosamente!");
+    
+    // Si deseas navegar a otra pantalla o realizar alguna acción adicional, puedes hacerlo aquí:
+    // this.router.navigate(['/solicitar-mentor']);
+  }
+
   cambiarPantalla() {
     this.router.navigate(['/pantalla-principal']);
   }
