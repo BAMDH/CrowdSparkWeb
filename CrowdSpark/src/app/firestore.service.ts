@@ -1,6 +1,6 @@
 // src/app/firestore.service.ts
 import { Injectable } from '@angular/core';
-import { Firestore, collection, doc, getDoc, setDoc, addDoc, collectionData, query, where, getDocs } from '@angular/fire/firestore';
+import { Firestore, collection, doc, getDoc, setDoc, addDoc, collectionData, query, where, getDocs, updateDoc  } from '@angular/fire/firestore';
 import { Observable, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 @Injectable({
@@ -64,6 +64,48 @@ export class FirestoreService {
     const q = query(collectionRef, where("nombre", "==", nombre));
     return from(getDocs(q)).pipe(
       map(snapshot => !snapshot.empty) // Retorna true si existe al menos un documento
+    );
+  }
+   // Método para modificar el estado del usuario
+   updateUserStatusByCorreo(correo: string, newStatus: string) {
+    const collectionRef = collection(this.firestore, 'Usuarios');
+    const q = query(collectionRef, where("correo", "==", correo)); // Filtrar por correo
+    return from(getDocs(q)).pipe(
+      map(snapshot => {
+        if (!snapshot.empty) {
+          // Si existe el usuario, obtenemos el documento
+          snapshot.forEach(async (docSnapshot) => {
+            const userDocRef = doc(this.firestore, `Usuarios/${docSnapshot.id}`);
+            await updateDoc(userDocRef, { estado: newStatus }); // Actualizamos el estado
+          });
+        }
+      })
+    );
+  }
+   // Método para actualizar el estado de "isMentor" de un usuario basado en su correo electrónico
+   updateUserMentorStatusByCorreo(correo: string, isMentor: boolean) {
+    const collectionRef = collection(this.firestore, 'Usuarios');
+    const q = query(collectionRef, where("correo", "==", correo)); // Filtrar por correo
+    return from(getDocs(q)).pipe(
+      map(snapshot => {
+        if (!snapshot.empty) {
+          // Si existe el usuario, obtenemos el documento
+          snapshot.forEach(async (docSnapshot) => {
+            const userDocRef = doc(this.firestore, `Usuarios/${docSnapshot.id}`);
+            await updateDoc(userDocRef, { isMentor: isMentor }); // Actualizamos el valor de isMentor
+          });
+        }
+      })
+    );
+  }
+  // Verificar si un usuario está inactivo por correo
+  getInactiveUserByCorreo(correo: string): Observable<boolean> {
+    const collectionRef = collection(this.firestore, 'Usuarios');
+    // Consulta para filtrar por correo y estado "inactivo"
+    const q = query(collectionRef, where("correo", "==", correo), where("estado", "==", "inactivo"));
+    
+    return from(getDocs(q)).pipe(
+      map(snapshot => !snapshot.empty) // Retorna true si se encuentra un usuario con estado "inactivo"
     );
   }
 }
