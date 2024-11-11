@@ -5,6 +5,7 @@ import { FirestoreService } from '../firestore.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { UsuarioService } from '../services/usuario.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-crear-proyecto',
@@ -48,7 +49,19 @@ export class CrearProyectoComponent {
       this.imageFile = file; // Guarda el archivo para su posterior carga
     }
   }
+  async verificarExistenciaProyecto(nombre: string): Promise<boolean> {
+    const existe = await firstValueFrom(this.firestoreService.projectExistsByName(nombre));
+    return existe;
+  }
+  async crearProyecto() {
+    const usuarioExiste = await this.verificarExistenciaProyecto(this.nuevoProyecto['nombre'].trim());
+    if (usuarioExiste) {
+      alert('Existe un proyecto ya registrado con este nombre');
+    } else {
 
+      this.addProyecto(this.nuevoProyecto);
+    }
+    }
   onSubmit() {
     if (this.document.valid) {
       this.nuevoProyecto = {
@@ -61,7 +74,7 @@ export class CrearProyectoComponent {
         objetivoFinanciacion: this.document.get('fundingGoal')?.value,
         idEncargado: this.correoUsuario,
       };
-      this.addProyecto(this.nuevoProyecto);
+      this.crearProyecto()
     } else {
       this.document.markAllAsTouched();  // Marca todos los campos como tocados para activar los errores
       console.log('Formulario inválido');
@@ -81,11 +94,20 @@ export class CrearProyectoComponent {
     this.firestoreService.addDocument('Proyecto', nuevoProyecto)
       .then(() => {
         console.log('Proyecto agregado correctamente');
+        this.emailService.sendEmail(this.correoUsuario+'', "Proyecto "+nuevoProyecto['nombre']+" Creado CrowdSpark", 'Su proyecto '+nuevoProyecto['nombre']+' ha sido exitosamente creado.').subscribe(
+          response => {
+            console.log('Correo enviado con éxito:', response);
+    
+          },
+          error => {
+            console.error('Error al enviar el correo:', error);
+          }
+        );
         alert("Proyecto creado exitosamente.");
         this.router.navigate(['/pantalla-principal']);
       })
       .catch((error) => {
-        alert("Error al crear el proyecto.");
+        alert("Error al crear el proyecto."+ error);
         console.error('Error al agregar el proyecto:', error);
       });
   }

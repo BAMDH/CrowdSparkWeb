@@ -5,7 +5,7 @@
   import { Router } from '@angular/router';
   import { CommonModule } from '@angular/common';
   import { UsuarioService } from '../services/usuario.service';
-
+  import { firstValueFrom } from 'rxjs';
   @Component({
     selector: 'app-editar-proyecto',
     standalone: true,
@@ -39,6 +39,8 @@
     }
 
     cargarProyectos() {
+      this.correoUsuario = this.usuarioService.getCorreoUsuario();
+      console.log(this.usuarioService.getCorreoUsuario());
       this.firestoreService.getCollectionData('Proyecto').subscribe((data: any[]) => {
         // Filtrar los proyectos cuyo 'idEncargado' coincida con 'correoUsuario'
         const proyectosFiltrados = data.filter((proyecto: any) => proyecto.idEncargado === this.correoUsuario);
@@ -50,7 +52,48 @@
         console.error("Error al cargar los proyectos:", error);
       });
     }
+    async verificarExistenciaProyecto(nombre: string): Promise<boolean> {
+      const existe = await firstValueFrom(this.firestoreService.projectExistsByName(nombre));
+      return existe;
+    }
+    async verificarProyecto(nombre: string,updateData: any,selectedValue: any) {
+      const updatedProjectData = this.document.value;
+      
+      const usuarioExiste = await this.verificarExistenciaProyecto(nombre.trim());
+      if (usuarioExiste) {
+        alert('Existe un proyecto ya registrado con este nombre');
+      } else {
+  
+        if (Object.keys(updateData).length > 0) {
+          this.firestoreService.getProjectByName('Proyecto', selectedValue)
+            .then((querySnapshot) => {
+              querySnapshot.forEach((doc) => {
+                const docId = doc.id;
+                this.firestoreService.updateDocument('Proyecto', docId, updateData)
+                  .then(() => {
+                    this.emailService.sendEmail(this.correoUsuario+'', "Proyecto "+selectedValue+" Editado CrowdSpark", 'Los cambios a su proyecto '+selectedValue+' han sido correctamente realizados.').subscribe(
+                      response => {
+                        console.log('Correo enviado con éxito:', response);
+                
+                      },
+                      error => {
+                        console.error('Error al enviar el correo:', error);
+                      }
+                    );
+                    alert("Proyecto actualizado exitosamente.");
 
+                    this.router.navigate(['/pantalla-principal']);
+                  })
+                  .catch((error) => {
+                    console.error('Error al actualizar el proyecto:', error);
+                  });
+              });
+            });
+        } else {
+          console.log('No se han realizado cambios en los campos.');
+        }
+      }
+      }
     updateProyecto() {
       // Se obtiene el valor de cada campo del formulario
 
@@ -81,25 +124,8 @@
       if (this.imagePreview && this.imagePreview !== '') {
         updateData.imagen = this.imagePreview; // Solo actualizamos el campo de la imagen si no está vacío
       }
-    
-      if (Object.keys(updateData).length > 0) {
-        this.firestoreService.getProjectByName('Proyecto', selectedValue)
-          .then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-              const docId = doc.id;
-              this.firestoreService.updateDocument('Proyecto', docId, updateData)
-                .then(() => {
-                  alert("Proyecto actualizado exitosamente.");
-                  this.router.navigate(['/pantalla-principal']);
-                })
-                .catch((error) => {
-                  console.error('Error al actualizar el proyecto:', error);
-                });
-            });
-          });
-      } else {
-        console.log('No se han realizado cambios en los campos.');
-      }
+      this.verificarProyecto(updateData.nombre,updateData,selectedValue)
+      
     }
       
 

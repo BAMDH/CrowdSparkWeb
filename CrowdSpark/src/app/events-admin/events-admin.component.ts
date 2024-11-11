@@ -5,7 +5,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-events-admin',
-  templateUrl: './events-admin.component.html',
+  standalone: true,
+  templateUrl: './events-admin.component.html',imports: [ReactiveFormsModule],
   styleUrls: ['./events-admin.component.css']
 })
 export class EventsAdminComponent {

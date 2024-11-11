@@ -1,8 +1,8 @@
 // src/app/firestore.service.ts
 import { Injectable } from '@angular/core';
 import { Firestore, collection, doc, getDoc, setDoc, addDoc, collectionData, query, where, getDocs } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
-
+import { Observable, from } from 'rxjs';
+import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
@@ -50,5 +50,20 @@ export class FirestoreService {
     const collectionRef = collection(this.firestore, 'Usuarios');
     const q = query(collectionRef, where("correo", "==", correo)); // Filtrar por correo
     return getDocs(q); // Devuelve los documentos encontrados
+  }
+  // Verificar si un usuario con un correo específico ya existe
+  userExistsByEmail(correo: string): Observable<boolean> {
+    const collectionRef = collection(this.firestore, 'Usuarios');
+    const q = query(collectionRef, where("correo", "==", correo));
+    return from(getDocs(q)).pipe(
+      map(snapshot => !snapshot.empty) // Retorna true si existe al menos un documento
+    );
+  }
+  projectExistsByName(nombre: string): Observable<boolean> {
+    const collectionRef = collection(this.firestore, 'Proyecto');
+    const q = query(collectionRef, where("nombre", "==", nombre));
+    return from(getDocs(q)).pipe(
+      map(snapshot => !snapshot.empty) // Retorna true si existe al menos un documento
+    );
   }
 }

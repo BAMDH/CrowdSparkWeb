@@ -4,7 +4,7 @@ import { EmailService } from '../email.service';
 import { FirestoreService } from '../firestore.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-
+import { firstValueFrom } from 'rxjs';
 @Component({
   selector: 'app-registro',
   standalone: true,
@@ -34,7 +34,22 @@ export class RegistroComponent {
     private firestoreService: FirestoreService,
     private router: Router
   ) {}
+  async verificarExistenciaUsuario(correo: string): Promise<boolean> {
+    const usuarioExiste = await firstValueFrom(this.firestoreService.userExistsByEmail(correo));
+    console.log(`¿Existe el usuario? ${usuarioExiste}`);
+    return usuarioExiste;
+  }
+  async crearUsuario() {
+    const usuarioExiste = await this.verificarExistenciaUsuario(this.newUser['correo'].trim());
+    if (usuarioExiste) {
+      alert('Usuario ya registrado');
+    } else {
 
+      this.addUser(this.newUser);
+    }
+    
+    
+    }
   onSubmit() {
     this.validateEmailField();  // Validar correo antes de enviar el formulario
     this.validatePasswords();
@@ -50,7 +65,7 @@ export class RegistroComponent {
         password: this.document.get('regPassword')?.value,
         telefono: this.document.get('phone')?.value,
       };
-      this.addUser(this.newUser);
+      this.crearUsuario();
       
     } else {
       console.log('Formulario inválido');
@@ -102,6 +117,15 @@ export class RegistroComponent {
       // Llamamos al servicio para agregar el documento
       this.firestoreService.addDocument('Usuarios', newUser)
         .then(() => {
+          this.emailService.sendEmail(newUser['correo'], "Registro CrowdSpark", 'Felicidades, se ha registrado exitosamente en CrowdSpark').subscribe(
+            response => {
+              console.log('Correo enviado con éxito:', response);
+      
+            },
+            error => {
+              console.error('Error al enviar el correo:', error);
+            }
+          );
           console.log('Usuario agregado correctamente');
           alert("Registro exitoso.");
           this.router.navigate(['/inicio'])

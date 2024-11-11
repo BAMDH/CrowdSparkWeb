@@ -23,10 +23,10 @@ export class EditarUsuarioComponent {
     fullName: new FormControl('', [Validators.required]),
     idNumber: new FormControl('', [Validators.required]),
     workArea: new FormControl('', [Validators.required]),
-    initialAmount: new FormControl('', [Validators.required, this.validatePositiveNumber]),
+    initialAmount: new FormControl('', [this.validatePositiveNumber]),
     phone: new FormControl('', [Validators.required]),
     regPassword: new FormControl('', [Validators.required]),
-    confirmPassword: new FormControl('', [Validators.required])
+    confirmPassword: new FormControl('')
   });
 
   constructor(
@@ -36,7 +36,39 @@ export class EditarUsuarioComponent {
     private router: Router
   ) {this.correoUsuario = this.usuarioService.getCorreoUsuario()}
 
+  ngOnInit(): void {
+    
+    this.cargarUsuario(this.usuarioService.getCorreoUsuario()+'');
+  }
+  cargarUsuario(correo: string) {
+    this.firestoreService.getUsuariosByCorreo(correo).then(snapshot => {
+      if (!snapshot.empty) {
+        const userData = snapshot.docs[0].data(); // Tomamos el primer documento encontrado
+
+        // Llenar los campos del formulario con los datos obtenidos
+        this.document.patchValue({
+          fullName: userData['nombre'], // Asegúrate de que el campo sea el correcto
+          idNumber: userData['cedula'],
+          workArea: userData['area'],
+          initialAmount: userData['dinero'],
+          phone: userData['telefono']
+        });
+      } else {
+        console.log('No se encontró ningún usuario con este correo');
+      }
+    }).catch(error => {
+      console.error('Error al cargar el usuario:', error);
+    });
+  }
   updateUsuario() {
+    const control = this.document.get('initialAmount');
+    const control2 = this.document.get('confirmPassword');
+    this.validatePasswords();
+    if (control?.invalid){
+      alert("El monto no puede ser negativo")
+    }else if(control2?.invalid){
+      alert("Las contraseñas deben ser iguales")
+    }else{
     const updatedUserData = this.document.value;
 
     // Creamos un objeto vacío para los campos que vamos a actualizar
@@ -72,7 +104,15 @@ export class EditarUsuarioComponent {
             // Realizar la actualización en Firestore
             this.firestoreService.updateDocument('Usuarios', docId, updateData)
               .then(() => {
-
+                this.emailService.sendEmail(this.correoUsuario+'', "Usuario Editado CrowdSpark", 'Los cambios en su perfil han sido correctamente realizados.').subscribe(
+                  response => {
+                    console.log('Correo enviado con éxito:', response);
+            
+                  },
+                  error => {
+                    console.error('Error al enviar el correo:', error);
+                  }
+                );
                 console.log('Usuario actualizado correctamente');
                 alert("Usuario actualizado exitosamente.");
                 this.router.navigate(['/pantalla-principal']);
@@ -86,23 +126,7 @@ export class EditarUsuarioComponent {
       console.log('No se han realizado cambios en los campos o no hay correo disponible.');
     }
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
-
+  }
   validatePositiveNumber(control: AbstractControl): ValidationErrors | null {
     const value = control.value;
     if (value && (!/^\d+$/.test(value) || Number(value) <= 0)) {
@@ -114,7 +138,7 @@ export class EditarUsuarioComponent {
   validatePasswords() {
     const password = this.document.get('regPassword')?.value;
     const confirmPassword = this.document.get('confirmPassword')?.value;
-    if (password && confirmPassword && password !== confirmPassword) {
+    if (password !== confirmPassword) {
       this.passwordError = 'Las contraseñas deben coincidir';
       this.document.get('confirmPassword')?.setErrors({ mismatch: true });
     } else {
