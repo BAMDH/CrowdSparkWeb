@@ -70,6 +70,7 @@ export class CrearProyectoComponent {
         fechaLimite: this.document.get('dueDate')?.value,
         imagen: this.imagePreview, 
         monto: 0,
+        aprobado:false,
         nombre: this.document.get('projectName')?.value,
         objetivoFinanciacion: this.document.get('fundingGoal')?.value,
         idEncargado: this.correoUsuario,

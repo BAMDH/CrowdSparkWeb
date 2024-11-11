@@ -6,13 +6,24 @@
                 <th>Nombre</th>
                 <th>Email</th>
                 <th>Rol</th>
+                <th>Estado</th>
+                <th>Mentor</th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let user of users">
-                <td>{{ user.name }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.role }}</td>
+                <td>{{ user.nombre }}</td>
+                <td>{{ user.correo }}</td>
+                <td>{{ user.isMentor ? 'Mentor' : 'Usuario' }}</td>
+             
+                <td><button (click)="desactivarActivarUsuario(user.correo, user.estado)" 
+                    [ngClass]="{'active': user.estado === 'activo', 'inactive': user.estado === 'inactivo'}">
+                    <i [class]="user.estado === 'activo' ?  'fas fa-user-check':'fas fa-user-times'"></i>
+            </button></td>
+            <td><button (click)="agregarQuitarMentor(user.correo,user.isMentor)" 
+                [ngClass]="{'active': user.isMentor, 'inactive': !user.isMentor}">
+            <i [class]="user.isMentor ? 'fas fa-chalkboard-teacher':'fas fa-user'"></i>
+            </button></td>
             </tr>
         </tbody>
     </table>

@@ -35,23 +35,32 @@ export class InicioComponent {
   onLogin() {
     const email = this.loginForm.get('email')?.value;
     const password = this.loginForm.get('password')?.value;
-
-    if (email && password){
-      this.firestoreService.getCollectionData('Usuarios').subscribe(users => {
-        const user = users.find((u: any) => u.correo === email && u.password === password);
-        
-        if (user) {
-          // Redirige al usuario si el login es exitoso
-          this.usuarioService.setCorreoUsuario(email);
-          this.router.navigate(['/pantalla-principal']);
-        } else {
-          // Muestra un mensaje de error si el login falla
-          this.loginError = 'Correo o contraseña incorrectos.';
+    this.firestoreService.getInactiveUserByCorreo(email+'').subscribe((result) => {
+      const isInactive = result;  // Actualizamos el estado de inactividad
+      if (isInactive) {
+        alert('El usuario está inactivo.');
+      } else {
+        if (email && password){
+          this.firestoreService.getCollectionData('Usuarios').subscribe(users => {
+            const user = users.find((u: any) => u.correo === email && u.password === password);
+            
+            if (user) {
+              // Redirige al usuario si el login es exitoso
+              this.usuarioService.setCorreoUsuario(email);
+              this.router.navigate(['/pantalla-principal']);
+            } else {
+              // Muestra un mensaje de error si el login falla
+              this.loginError = 'Correo o contraseña incorrectos.';
+            }
+          });
         }
-      });
-    }
+      }
+    }, (error) => {
+      console.error('Error al verificar el estado del usuario:', error);
+    });
+    
   }
-
+  
   onAdminLogin() {
     this.router.navigate(['/main-admin']);
   }
