@@ -29,7 +29,7 @@ export class InicioComponent {
   constructor(
     private usuarioService: UsuarioService,
     private firestoreService: FirestoreService,
-    private router: Router  
+    private router: Router
   ) {}
 
   onLogin() {

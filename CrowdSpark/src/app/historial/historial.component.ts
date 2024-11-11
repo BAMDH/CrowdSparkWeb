@@ -29,8 +29,15 @@ export class HistorialComponent {
   // Método para cargar las donaciones desde Firebase
   cargarDonaciones() {
     this.firestoreService.getCollectionData('Donacion').subscribe((data: any[]) => {
-      console.log(data);  // Imprimir los datos en consola
-      this.donaciones = data;
+      // Filtrar las donaciones cuyo 'correo' coincida con 'correoUsuario'
+      const donacionesFiltradas = data.filter((donacion: any) => donacion.correo === this.correoUsuario);
+      
+      // Asignar las donaciones filtradas a la variable donaciones
+      this.donaciones = donacionesFiltradas;
+      
+      console.log(this.donaciones);  // Imprimir las donaciones filtradas en consola
+    }, (error) => {
+      console.error("Error al cargar las donaciones:", error);
     });
   }
   
