@@ -1,0 +1,18 @@
+<div class="hola">
+  <button class="square-button"(click)="cambiarPantalla()" id="backArrow">←</button><h1>Eventos</h1>
+</div>
+<div class="container">
+  <div *ngFor="let evento of eventos" class="card">
+    <div class="card-header">
+      {{ evento.nombre }}
+    </div>
+    <div class="card-content">
+      <div><strong>Tipo:</strong> {{ evento.tipo }}</div>
+      <div><strong>Participantes:</strong> {{ evento.participantes }}</div>
+      <div><strong>Materiales:</strong> <a [href]="evento.materiales" target="_blank">Ver Material</a></div>
+    </div>
+    <div class="card-footer">
+      <hr>
+    </div>
+  </div>
+</div>

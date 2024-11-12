@@ -79,6 +79,9 @@ export class PantallaPrincipalComponent {
   editarProyecto() {
     this.router.navigate(['/editar-proyecto']);
   }
+  verEventos() {
+    this.router.navigate(['/ver-evento']);
+  }
 
   historial() {
     this.router.navigate(['/historial']);

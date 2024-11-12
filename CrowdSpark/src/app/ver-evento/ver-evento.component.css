@@ -1,0 +1,120 @@
+/* eventos.component.css */
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: space-between;
+  }
+  
+  .card {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    flex: 1 1 calc(33.33% - 15px); /* Se ajusta al 33% del contenedor */
+    min-width: 280px; /* Mínimo tamaño para las tarjetas */
+    max-width: 350px; /* Máximo tamaño para las tarjetas */
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .card-header {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .card-content {
+    margin-bottom: 10px;
+  }
+  
+  .card a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .card a:hover {
+    text-decoration: underline;
+  }
+  
+  .card-footer {
+    text-align: right;
+    font-size: 0.9em;
+    color: #666;
+  }
+  
+  hr {
+    border-top: 1px solid #ddd;
+    margin: 20px 0;
+  }
+  
+  /* Para pantallas más pequeñas */
+  @media (max-width: 768px) {
+    .card {
+      flex: 1 1 100%; /* Las tarjetas se acomodarán en una sola columna */
+    }
+  }
+  label {
+    font-size: 0.9rem;
+    width: 30%; 
+    text-align: left;
+  }
+
+  button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+
+  /* Contenedor para alinear el h1 y el botón */
+.hola {
+  display: flex;             /* Usamos flexbox para alinear los elementos en línea */
+  align-items: center;       /* Alinea verticalmente los elementos al centro */
+  gap: 500px;                 /* Espacio entre el h1 y el botón */
+}
+
+/* Estilo para el botón cuadrado */
+.square-button {
+  width: 40px;               /* Ancho del botón */
+  height: 40px;              /* Alto del botón */
+  background-color: #007bff; /* Color de fondo */
+  color: white;              /* Color del texto */
+  border: none;              /* Sin borde */
+  border-radius: 5px;        /* Bordes ligeramente redondeados */
+  font-size: 24px;           /* Tamaño del ícono dentro del botón */
+  text-align: center;        /* Alineación del texto en el centro */
+  display: flex;             /* Usamos flexbox para centrar el contenido */
+  justify-content: center;   /* Centrado horizontal */
+  align-items: center;       /* Centrado vertical */
+  cursor: pointer;          /* Cursor de mano al pasar el ratón */
+  transition: background-color 0.3s, transform 0.3s; /* Efecto de transición */
+}
+
+/* Efecto hover del botón */
+.square-button:hover {
+  background-color: #0056b3; /* Cambia el color de fondo al pasar el ratón */
+  transform: scale(1.1);      /* Efecto de aumento de tamaño */
+}
+
+/* Eliminar borde azul al hacer clic en el botón */
+.square-button:focus {
+  outline: none;
+}
+
+/* Estilo para el h1 */
+h1 {
+  font-size: 34px; /* Tamaño del texto */
+  margin: 0;       /* Elimina margen predeterminado del h1 */
+}

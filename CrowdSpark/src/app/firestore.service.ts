@@ -165,4 +165,33 @@ export class FirestoreService {
     const q = query(proyectosRef, where('mentor', '==', correo));
     return collectionData(q);
   }
+  // Obtener todos los documentos de la colección Donacion
+  getAllDonations(): Observable<any[]> {
+    return this.getCollectionData('Donacion');
+  }
+
+  // Obtener todos los documentos de la colección Usuarios
+  getAllUsers(): Observable<any[]> {
+    return this.getCollectionData('Usuarios');
+  }
+
+  // Obtener usuarios activos
+  getActiveUsers(): Observable<any[]> {
+    const collectionRef = collection(this.firestore, 'Usuarios');
+    const q = query(collectionRef, where('estado', '==', 'activo'));
+    return collectionData(q);
+
+ 
+  }
+  getAllProjects(): Observable<any[]> {
+    return this.getCollectionData('Proyecto');
+  }
+
+  // Obtener usuarios mentores
+  getMentorUsers(): Observable<any[]> {
+    const collectionRef = collection(this.firestore, 'Usuarios');
+    const q = query(collectionRef, where('isMentor', '==', true));
+    return collectionData(q);
+  }
+
 }

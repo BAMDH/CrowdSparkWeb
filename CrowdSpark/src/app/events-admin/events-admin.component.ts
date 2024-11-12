@@ -3,6 +3,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { FirestoreService } from '../firestore.service';
+
 @Component({
   selector: 'app-events-admin',
   standalone: true,
@@ -12,13 +14,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 export class EventsAdminComponent {
   title = 'Crear Evento';
   eventForm = new FormGroup({
-    eventName: new FormControl('', Validators.required),
-    presentationType: new FormControl('Presencial', Validators.required),
-    participants: new FormControl('', Validators.required),
-    materials: new FormControl('', Validators.required)
+    nombre: new FormControl('', Validators.required),
+    tipo: new FormControl('Presencial', Validators.required),
+    participantes: new FormControl('', Validators.required),
+    materiales: new FormControl('', Validators.required)
   });
 
-  constructor(private router: Router) {}
+  constructor(private router: Router,
+    private firestoreService: FirestoreService) {}
 /*
   onCreateEvent() {
     if (this.eventForm.valid) {
@@ -28,9 +31,22 @@ export class EventsAdminComponent {
     }
   }*/
  onSubmit(){
-
+  const formData = this.eventForm.value;
+  this.addEvento(formData)
  }
+addEvento(evento: any) {
+    this.firestoreService.addDocument('Eventos', evento)
+      .then(() => {
+        console.log('Evento agregado correctamente');
+        alert("Evento creado exitosamente.");
+        this.router.navigate(['/main-admin']);
 
+      })
+      .catch((error) => {
+        alert("Error al crear el Evento." + error);
+        console.error('Error al agregar el Evento:', error);
+      });
+  }
   goBack() {
     this.router.navigate(['/main-admin']);
   }
