@@ -20,6 +20,7 @@ export class CrearProyectoComponent {
   nuevoProyecto: any;
   imagePreview: string | ArrayBuffer | null = null; // Para almacenar la vista previa de la imagen
   imageFile: File | null = null; // Para almacenar el archivo de imagen seleccionado
+  imageRequired: boolean = false; // Nueva propiedad para controlar el mensaje de error
 
   document = new FormGroup({
     projectName: new FormControl('', [Validators.required]),
@@ -47,6 +48,7 @@ export class CrearProyectoComponent {
       };
       reader.readAsDataURL(file); // Convierte la imagen a base64
       this.imageFile = file; // Guarda el archivo para su posterior carga
+      this.imageRequired = false; // Resetea el mensaje de error cuando se selecciona una imagen
     }
   }
   async verificarExistenciaProyecto(nombre: string): Promise<boolean> {
@@ -63,7 +65,7 @@ export class CrearProyectoComponent {
     }
     }
   onSubmit() {
-    if (this.document.valid) {
+    if (this.document.valid && this.imageFile) {
       this.nuevoProyecto = {
         categoria: this.document.get('category')?.value,
         descripcion: this.document.get('projectDescription')?.value,
@@ -78,6 +80,7 @@ export class CrearProyectoComponent {
       this.crearProyecto()
     } else {
       this.document.markAllAsTouched();  // Marca todos los campos como tocados para activar los errores
+      this.imageRequired = !this.imageFile; // Establece el error si falta la imagen
       console.log('Formulario inválido');
     }
   }
