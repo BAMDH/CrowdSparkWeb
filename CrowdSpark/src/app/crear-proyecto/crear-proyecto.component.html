@@ -57,7 +57,7 @@
     </div>
 
     <!-- Botón para solicitar mentor -->
-    <button type="button" (click)="solicitarMentor()">Solicitar Mentor</button>
+    <button type="button" *ngIf="notMentor" (click)="solicitarMentor()">Solicitar Mentor</button>
     
     <button type="submit">Crear Proyecto</button>
 </form>

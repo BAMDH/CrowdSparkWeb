@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FirestoreService } from '../firestore.service';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { UsuarioService } from '../services/usuario.service';
 
 @Component({
   selector: 'app-pantalla-principal',
@@ -15,14 +16,18 @@ import { CommonModule } from '@angular/common';
 export class PantallaPrincipalComponent {
   proyectos: any[] = [];  // Variable para almacenar los proyectos
   selectedFilter: string = 'nombre';  // Opción seleccionada en el comboBox
+  isMentor: boolean = false;
+  correoUsuario: string | null = null;
 
   constructor(
+    private usuarioService: UsuarioService,
     private firestoreService: FirestoreService,
     private router: Router
-  ) {}
+  ) {this.correoUsuario = this.usuarioService.getCorreoUsuario()}
 
   ngOnInit() {
     this.cargarProyectos();  // Cargar proyectos al iniciar el componente
+    this.checkMentor();
   }
 
   cargarProyectos() {
@@ -55,6 +60,12 @@ export class PantallaPrincipalComponent {
   onFilterChange(event: any) {
     this.selectedFilter = event.target.value;  // Obtener la opción seleccionada
     this.ordenarProyectos();  // Reordenar los proyectos según el filtro
+  }
+
+  checkMentor() {
+    this.firestoreService.checkMentor(this.correoUsuario).subscribe((isMentor: boolean) => {
+      this.isMentor = isMentor;
+    });
   }
   
   verProyecto(proyecto: any) {

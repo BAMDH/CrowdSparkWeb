@@ -41,7 +41,7 @@
 
         <!-- Botón para ir a la página de mentor -->
         <div class="mentor-button">
-            <button (click)="irAPaginaMentor()">Ir a Página de Mentor</button>
+            <button *ngIf="isMentor" (click)="irAPaginaMentor()">Ir a Página Mentor</button>
         </div>
     </div>
 </div>

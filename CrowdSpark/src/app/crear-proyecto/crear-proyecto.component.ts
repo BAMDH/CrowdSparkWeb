@@ -20,6 +20,7 @@ export class CrearProyectoComponent {
   nuevoProyecto: any;
   imagePreview: string | ArrayBuffer | null = null; // Para almacenar la vista previa de la imagen
   imageFile: File | null = null; // Para almacenar el archivo de imagen seleccionado
+  notMentor: boolean = true;
 
   document = new FormGroup({
     projectName: new FormControl('', [Validators.required]),
@@ -36,6 +37,9 @@ export class CrearProyectoComponent {
     private router: Router
   ) {this.correoUsuario = this.usuarioService.getCorreoUsuario()}
 
+  ngOnInit() {
+    this.checkMentor();
+  }
   // Método para capturar la imagen
   uploadImage(event: Event) {
     const target = event.target as HTMLInputElement;
@@ -120,6 +124,12 @@ export class CrearProyectoComponent {
     
     // Si deseas navegar a otra pantalla o realizar alguna acción adicional, puedes hacerlo aquí:
     // this.router.navigate(['/solicitar-mentor']);
+  }
+
+  checkMentor() {
+    this.firestoreService.checkMentor(this.correoUsuario).subscribe((isMentor: boolean) => {
+      this.notMentor = !isMentor;
+    });
   }
 
   cambiarPantalla() {

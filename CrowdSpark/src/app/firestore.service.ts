@@ -141,4 +141,12 @@ export class FirestoreService {
       map(() => void 0) // Ensure the observable returns void
     );
   }
+  checkMentor(correo: string|null): Observable<boolean> {
+    const collectionRef = collection(this.firestore, 'Usuarios');
+    const q = query(collectionRef, where("correo", "==", correo), where("isMentor", "==", true));
+    
+    return from(getDocs(q)).pipe(
+      map(snapshot => !snapshot.empty) 
+    );
+  }
 }
