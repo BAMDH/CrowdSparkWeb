@@ -15,6 +15,12 @@ import { UsuariosAdminComponent } from './usuarios-admin/usuarios-admin.componen
 import { StatsAdminComponent } from './stats-admin/stats-admin.component';
 import { EventsAdminComponent } from './events-admin/events-admin.component';
 import { PaginaMentorComponent } from './pagina-mentor/pagina-mentor.component';
+import { AgendarSesionComponent } from './agendar-sesion/agendar-sesion.component';
+import { ProyectosPendientesComponent } from './proyectos-pendientes/proyectos-pendientes.component';
+import { SolicitudesMentoriaComponent } from './solicitudes-mentoria/solicitudes-mentoria.component';
+import { ValidarProyectoComponent } from './validar-proyecto/validar-proyecto.component';
+import { SesionesPendientesComponent } from './sesiones-pendientes/sesiones-pendientes.component';
+import { PagarSesionComponent } from './pagar-sesion/pagar-sesion.component';
 
 export const routes: Routes = [
     {path: 'registro', component: RegistroComponent},
@@ -33,4 +39,11 @@ export const routes: Routes = [
     {path: 'stats-admin', component: StatsAdminComponent },
     {path: 'events-admin', component: EventsAdminComponent },
     {path: 'pagina-mentor', component: PaginaMentorComponent },
-    {path: '', redirectTo: '/inicio', pathMatch: 'full'}];
+    {path: '', redirectTo: '/inicio', pathMatch: 'full'},
+    {path: 'agendar-sesion', component: AgendarSesionComponent },
+    {path: 'proyectos-pendientes', component: ProyectosPendientesComponent },
+    {path: 'solicitudes-mentoria', component: SolicitudesMentoriaComponent },
+    {path: 'validar-proyecto/:nombre', component: ValidarProyectoComponent },
+    {path: 'sesiones-pendientes', component: SesionesPendientesComponent },
+    {path: 'pagar-sesion/:nombre', component: PagarSesionComponent }
+];

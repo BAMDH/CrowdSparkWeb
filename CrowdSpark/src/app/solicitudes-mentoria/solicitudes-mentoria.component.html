@@ -1,0 +1,41 @@
+<div class="dashboard-container">
+    <div class="main-content">
+        <!-- Sección de logo y título -->
+        <div class="header-section">
+            <img src="images/marca.jpg" alt="Marca" class="center-logo">
+            <h2 class="title">Solicitudes de Mentoria</h2>
+        </div>
+        <span (click)="cambiarPantalla()" id="backArrow">←</span>
+
+        <!-- Cuadro de texto estático debajo del título -->
+        <div class="static-text-box">
+            <p>Estas son las solicitudes de mentoria pendientes.</p>
+        </div>
+
+        <!-- Tabla para mostrar las solicitudes -->
+        <div class="donations-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Proyecto</th>
+                        <th>Usuario</th>
+                        <th>Categoría</th>
+                        <th>Teléfono</th>
+                        <th>Fecha Límite</th>
+                        <th>Objetivo de Financiación</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let donacion of donaciones">
+                        <td>{{ donacion.nombreProyecto }}</td>
+                        <td>{{ donacion.nombreDonante }}</td>
+                        <td>${{ donacion.categoria }}</td>
+                        <td>{{ donacion.telefono }}</td>
+                        <td>{{ donacion.fechaDonacion | date:'dd/MM/yyyy, h:mm:ss a' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

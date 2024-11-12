@@ -6,13 +6,13 @@ import { CommonModule } from '@angular/common';
 import { UsuarioService } from '../services/usuario.service';
 
 @Component({
-  selector: 'app-historial',
+  selector: 'app-solicitudes-mentoria',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
-  templateUrl: './historial.component.html',
-  styleUrl: './historial.component.css'
+  templateUrl: './solicitudes-mentoria.component.html',
+  styleUrl: './solicitudes-mentoria.component.css'
 })
-export class HistorialComponent {
+export class SolicitudesMentoriaComponent {
   correoUsuario: string | null = null;
   donaciones: any[] = [];  // Variable para almacenar las donaciones
 
@@ -42,6 +42,6 @@ export class HistorialComponent {
   }
   
   cambiarPantalla() {
-    this.router.navigate(['/pantalla-principal']);
+    this.router.navigate(['/pagina-mentor']);
   }
 }

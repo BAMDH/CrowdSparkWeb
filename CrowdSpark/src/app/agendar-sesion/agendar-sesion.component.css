@@ -1,4 +1,4 @@
-.mentor-container {
+.agendar-container {
     padding: 20px;
     max-width: 600px;
     margin: 0 auto;
@@ -38,28 +38,5 @@
   button:disabled {
     background-color: #d3d3d3;
     cursor: not-allowed;
-  }
-  .menu {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    width: 100%;
-  }
-  .menu li {
-    margin: 15px 0;
-  }
-  
-  .menu li a {
-    text-decoration: none;
-    color: #333;
-    font-size: 1rem;
-    display: block;
-    padding: 10px;
-    border-radius: 4px;
-    width: 100%;
-  }
-  
-  .menu li a:hover {
-    background-color: #ddd;
   }
   

@@ -12,26 +12,21 @@ import { FirestoreService } from '../firestore.service';
   styleUrls: ['./pagina-mentor.component.css']
 })
 export class PaginaMentorComponent {
-  mentorForm: FormGroup;
-
   constructor(
     private firestoreService: FirestoreService,
     private router: Router
-  ) {
-    this.mentorForm = new FormGroup({
-      sessionDate: new FormControl('', Validators.required),
-      price: new FormControl('', [Validators.required, Validators.min(0)])
-    });
-  }
-
-  // Método para guardar o enviar el formulario
-  onSubmit() {
-    if (this.mentorForm.valid) {
-      // Lógica para guardar los datos
-    }
-  }
+  ) {}
 
   cambiarPantalla() {
     this.router.navigate(['/pantalla-principal']);
+  }
+  agendarSesion() {
+    this.router.navigate(['/agendar-sesion']);
+  }
+  proyectosPendientes() {
+    this.router.navigate(['/proyectos-pendientes']);
+  }
+  solicitudesMentoria() {
+    this.router.navigate(['/solicitudes-mentoria']);
   }
 }

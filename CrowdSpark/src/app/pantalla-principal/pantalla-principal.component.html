@@ -7,6 +7,7 @@
             <li><a (click)="editarProyecto()">Editar Proyecto</a></li>
             <li><a (click)="historial()">Historial</a></li>
             <li><a (click)="editarUsuario()">Editar Usuario</a></li>
+            <li *ngIf="!isMentor"><a (click)="sesiones()">Sesiones Pendientes</a></li>
             <li><a (click)="cerrarSesion()">Cerrar sesión</a></li>
         </ul>
     </div>
@@ -41,7 +42,7 @@
 
         <!-- Botón para ir a la página de mentor -->
         <div class="mentor-button">
-            <button (click)="irAPaginaMentor()">Ir a Página de Mentor</button>
+            <button *ngIf="isMentor" (click)="irAPaginaMentor()">Ir a Página Mentor</button>
         </div>
     </div>
 </div>

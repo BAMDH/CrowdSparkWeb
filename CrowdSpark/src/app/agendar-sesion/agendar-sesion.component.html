@@ -1,0 +1,29 @@
+<span (click)="cambiarPantalla()" id="backArrow">←</span>
+<div class="agendar-container">
+    <h2>Agendar Sesion</h2>
+    <form [formGroup]="agendarForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="project">Proyecto:</label>
+        <select id="project" formControlName="project" required>
+          <option *ngFor="let project of projects" [value]="project">{{ project }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="sessionDate">Fecha de la sesión:</label>
+        <input type="date" id="sessionDate" formControlName="sessionDate" required>
+      </div>
+  
+      <div class="form-group">
+        <label for="sessionTime">Hora de la sesión:</label>
+        <input type="time" id="sessionTime" formControlName="sessionTime" required>
+      </div>
+  
+      <div class="form-group">
+        <label for="price">Precio de la sesión:</label>
+        <input type="number" id="price" formControlName="price" required min="0" placeholder="Precio en $">
+      </div>
+  
+      <button type="submit" [disabled]="agendarForm.invalid">Agendar sesión</button>
+    </form>
+  </div>
+  
