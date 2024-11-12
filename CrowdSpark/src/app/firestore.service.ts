@@ -1,6 +1,6 @@
 // src/app/firestore.service.ts
 import { Injectable } from '@angular/core';
-import { Firestore, collection, doc, getDoc, setDoc, addDoc, collectionData, query, where, getDocs, updateDoc  } from '@angular/fire/firestore';
+import { Firestore, collection, doc, getDoc, setDoc, addDoc, collectionData, query, where, getDocs, updateDoc, DocumentData, DocumentReference, deleteDoc } from '@angular/fire/firestore';
 import { Observable, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 @Injectable({
@@ -162,7 +162,62 @@ export class FirestoreService {
 
   getProyectosByMentor(correo: string | null): Observable<any[]> {
     const proyectosRef = collection(this.firestore, 'Mentoria');
-    const q = query(proyectosRef, where('mentor', '==', correo));
+    const q = query(proyectosRef, where('mentor', '==', correo), where('aceptado', '==', true));
     return collectionData(q);
   }
+  getProyectosByMentorPendientes(correo: string | null): Observable<any[]> {
+    const proyectosRef = collection(this.firestore, 'Mentoria');
+    const q = query(proyectosRef, where('mentor', '==', correo), where('aceptado', '==', false));
+    return collectionData(q);
+  }
+
+  approveMentorship(proyecto: string): Observable<void> {
+    const collectionName = 'Mentoria';
+    const collectionRef = collection(this.firestore, collectionName);
+    const q = query(collectionRef, where("proyecto", "==", proyecto)); // Filtrar por projectName
+    return from(getDocs(q)).pipe(
+      map(snapshot => {
+        if (!snapshot.empty) {
+          const updatePromises = snapshot.docs.map(docSnapshot => {
+            const projectDocRef = doc(this.firestore, `${collectionName}/${docSnapshot.id}`);
+            return updateDoc(projectDocRef, { aceptado: true }).catch(error => {
+              console.error(`Error updating document ${docSnapshot.id}:`, error);
+              throw error;
+            });
+          });
+          return Promise.all(updatePromises);
+        } else {
+          console.warn(`No documents found with name: ${name}`);
+          return Promise.resolve();
+        }
+      }),
+      map(() => void 0) // Ensure the observable returns void
+    );
+  }
+  denyMentorship(proyecto: string): Observable<void> {
+    const collectionName = 'Mentoria';
+    const collectionRef = collection(this.firestore, collectionName);
+    const q = query(collectionRef, where("proyecto", "==", proyecto)); // Filtrar por projectName
+
+    return from(getDocs(q)).pipe(
+      map(snapshot => {
+        if (!snapshot.empty) {
+          const deletePromises = snapshot.docs.map(docSnapshot => {
+            const docRef = doc(this.firestore, `${collectionName}/${docSnapshot.id}`);
+            return deleteDoc(docRef).catch(error => {
+              console.error(`Error deleting document ${docSnapshot.id}:`, error);
+              throw error;
+            });
+          });
+          return Promise.all(deletePromises);
+        } else {
+          console.warn(`No documents found with project: ${proyecto}`);
+          return Promise.resolve();
+        }
+      }),
+      map(() => void 0) // Ensure the observable returns void
+    );
+  }
 }
+
+

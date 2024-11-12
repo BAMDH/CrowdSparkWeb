@@ -14,7 +14,7 @@ import { UsuarioService } from '../services/usuario.service';
 })
 export class SolicitudesMentoriaComponent {
   correoUsuario: string | null = null;
-  donaciones: any[] = [];  // Variable para almacenar las donaciones
+  projects: any[] = [];  // Variable para almacenar las donaciones
 
   constructor(
     private usuarioService: UsuarioService,
@@ -23,19 +23,16 @@ export class SolicitudesMentoriaComponent {
   ) {this.correoUsuario = this.usuarioService.getCorreoUsuario()}
 
   ngOnInit() {
-    this.cargarDonaciones();
+    this.cargarProyectos();
   }
 
   // Método para cargar las donaciones desde Firebase
-  cargarDonaciones() {
-    this.firestoreService.getCollectionData('Donacion').subscribe((data: any[]) => {
-      // Filtrar las donaciones cuyo 'correo' coincida con 'correoUsuario'
-      const donacionesFiltradas = data.filter((donacion: any) => donacion.correo === this.correoUsuario);
+  cargarProyectos() {
+    this.firestoreService.getProyectosByMentorPendientes(this.correoUsuario).subscribe((data: any[]) => {
+
+      this.projects = data;
       
-      // Asignar las donaciones filtradas a la variable donaciones
-      this.donaciones = donacionesFiltradas;
-      
-      console.log(this.donaciones);  // Imprimir las donaciones filtradas en consola
+      console.log(this.projects);  // Imprimir las donaciones filtradas en consola
     }, (error) => {
       console.error("Error al cargar las donaciones:", error);
     });
@@ -43,5 +40,21 @@ export class SolicitudesMentoriaComponent {
   
   cambiarPantalla() {
     this.router.navigate(['/pagina-mentor']);
+  }
+
+  rechazarSolicitud(project: any) {
+    this.firestoreService.denyMentorship(project).subscribe(() => {
+      console.log("Solicitud rechazada");
+      alert("Solicitud rechazada");
+      this.cargarProyectos();
+    })
+  }
+
+  aprobarSolicitud(project: any) {
+    this.firestoreService.approveMentorship(project).subscribe(() => {
+      console.log("Solicitud aprobada");
+      alert("Solicitud aprobada");
+      this.cargarProyectos();
+    })
   }
 }

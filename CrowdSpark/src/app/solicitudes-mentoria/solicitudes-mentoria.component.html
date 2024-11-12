@@ -18,20 +18,15 @@
                 <thead>
                     <tr>
                         <th>Proyecto</th>
-                        <th>Usuario</th>
-                        <th>Categoría</th>
-                        <th>Teléfono</th>
-                        <th>Fecha Límite</th>
-                        <th>Objetivo de Financiación</th>
+                        <th>Aprobar</th>
+                        <th>Rechazar</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let donacion of donaciones">
-                        <td>{{ donacion.nombreProyecto }}</td>
-                        <td>{{ donacion.nombreDonante }}</td>
-                        <td>${{ donacion.categoria }}</td>
-                        <td>{{ donacion.telefono }}</td>
-                        <td>{{ donacion.fechaDonacion | date:'dd/MM/yyyy, h:mm:ss a' }}</td>
+                    <tr *ngFor="let project of projects">
+                        <td>{{ project.proyecto }}</td>
+                        <td><button (click)="aprobarSolicitud(project.proyecto)">Aprobar</button></td>
+                        <td><button (click)="rechazarSolicitud(project.proyecto)">Rechazar</button></td>
                     </tr>
                 </tbody>
             </table>
