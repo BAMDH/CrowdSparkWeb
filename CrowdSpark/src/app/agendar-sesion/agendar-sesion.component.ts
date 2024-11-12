@@ -24,21 +24,17 @@ export class AgendarSesionComponent {
     private router: Router,
     private fb: FormBuilder
   ) {
-    this.agendarForm = new FormGroup({
-      sessionDate: new FormControl('', Validators.required),
-      price: new FormControl('', [Validators.required, Validators.min(0)])
-    });
-    this.correoUsuario = this.usuarioService.getCorreoUsuario();
-  }
-
-  ngOnInit(): void {
-    this.loadProjects();
     this.agendarForm = this.fb.group({
       project: ['', Validators.required],
       sessionDate: ['', Validators.required],
       sessionTime: ['', Validators.required],
       price: ['', [Validators.required, Validators.min(0)]]
     });
+    this.correoUsuario = this.usuarioService.getCorreoUsuario();
+  }
+
+  ngOnInit(): void {
+    this.loadProjects();
   }
   // Método para guardar o enviar el formulario
   onSubmit() {

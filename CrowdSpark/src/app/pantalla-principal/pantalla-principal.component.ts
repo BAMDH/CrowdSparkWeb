@@ -92,7 +92,7 @@ export class PantallaPrincipalComponent {
   }
 
   sesiones() {
-    this.router.navigate(['/sesiones']);
+    this.router.navigate(['/sesiones-pendientes']);
   }
 
   cerrarSesion() {
