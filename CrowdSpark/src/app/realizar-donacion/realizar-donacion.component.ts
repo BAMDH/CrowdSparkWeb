@@ -120,6 +120,25 @@ export class RealizarDonacionComponent {
                         // Actualizar el monto en el documento del proyecto
                         this.firestoreService.updateDocument('Proyecto', projectDoc.id, { monto: nuevoMontoProyecto })
                           .then(() => {
+                            this.emailService.sendEmail(this.correoUsuario+'', "Donación Realizada CrowdSpark", 'Gracias por donar '+ amount + ' al proyecto '+nombreProyecto).subscribe(
+                              response => {
+                                console.log('Correo enviado con éxito:', response);
+                        
+                              },
+                              error => {
+                                console.error('Error al enviar el correo:', error);
+                              }
+                            );
+                            console.log(projectData);
+                            this.emailService.sendEmail(projectData['idEncargado']+'', "Donación Recibida CrowdSpark", 'Ha recibido una ayuda de '+ amount + ' para su proyecto '+nombreProyecto).subscribe(
+                              response => {
+                                console.log('Correo enviado con éxito:', response);
+                        
+                              },
+                              error => {
+                                console.error('Error al enviar el correo:', error);
+                              }
+                            );
                             alert(`¡Donación de $${amount} realizada correctamente!`);
                             this.router.navigate(['/pantalla-principal']);
                           })
