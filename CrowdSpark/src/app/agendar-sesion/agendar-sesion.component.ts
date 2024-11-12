@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FirestoreService } from '../firestore.service';
 import { EmailService } from '../email.service';
+import { UsuarioService } from '../services/usuario.service';
 @Component({
   selector: 'app-agendar-sesion',
   standalone: true,
@@ -13,9 +14,11 @@ import { EmailService } from '../email.service';
 })
 export class AgendarSesionComponent {
   agendarForm: FormGroup;
-  projects: string[] = ['Proyecto 1', 'proyecto 2', 'Proyecto 3', 'Proyecto 4'];
+  projects: any[] = [];
+  correoUsuario: string | null = null;
 
   constructor(
+    private usuarioService: UsuarioService,
     private emailService: EmailService,
     private firestoreService: FirestoreService,
     private router: Router,
@@ -25,20 +28,30 @@ export class AgendarSesionComponent {
       sessionDate: new FormControl('', Validators.required),
       price: new FormControl('', [Validators.required, Validators.min(0)])
     });
+    this.correoUsuario = this.usuarioService.getCorreoUsuario();
   }
 
   ngOnInit(): void {
+    this.loadProjects();
     this.agendarForm = this.fb.group({
-      project: [''],
-      sessionDate: [''],
-      sessionTime: [''],
-      price: ['']
+      project: ['', Validators.required],
+      sessionDate: ['', Validators.required],
+      sessionTime: ['', Validators.required],
+      price: ['', [Validators.required, Validators.min(0)]]
     });
   }
   // Método para guardar o enviar el formulario
   onSubmit() {
     if (this.agendarForm.valid) {
-      // Lógica para guardar los datos
+      const newSession = {
+        project: this.agendarForm.get('project')?.value,
+        sessionDate: this.agendarForm.get('sessionDate')?.value,
+        sessionTime: this.agendarForm.get('sessionTime')?.value,
+        price: this.agendarForm.get('price')?.value,
+        mentor: this.correoUsuario,
+        pagado: false
+      };
+      this.addSesion(newSession);
     }
   }
 
@@ -46,11 +59,18 @@ export class AgendarSesionComponent {
     this.router.navigate(['/pagina-mentor']);
   }
 
+  loadProjects() {
+    this.firestoreService.getProyectosByMentor(this.correoUsuario).subscribe((data: any[]) => {
+      this.projects = data.map(project => ({
+        nombre: project.proyecto,
+      }));
+    });
+  }
   addSesion(newSession: any) {
     // Llamamos al servicio para agregar el documento
     this.firestoreService.addDocument('Sesion', newSession)
       .then(() => {
-        this.emailService.sendEmail(newSession['correo'], "Registro CrowdSpark", 'Felicidades, se ha registrado exitosamente en CrowdSpark').subscribe(
+        this.emailService.sendEmail(this.correoUsuario + '', "Sesion agendada", 'Sesion agendada para ' + newSession['sessionDate'] + ' a las ' + newSession['sessionTime'] + ' para el proyecto ' + newSession['project'] + ' con un precio de ' + newSession['price']).subscribe(
           response => {
             console.log('Correo enviado con éxito:', response);
     

@@ -90,14 +90,15 @@ export class CrearProyectoComponent {
         idEncargado: this.correoUsuario,
       };
       this.crearProyecto();
-      if (this.showMentorCombobox && this.selectedMentor !== '') {
+      if (this.selectedMentor !== '') {
         this.mentoria = {
-          mentor: this.selectedMentor,
-          mentorEmail: this.selectedMentorEmail,
+          mentor: this.selectedMentorEmail,
           proyecto: this.nuevoProyecto['nombre'],
           aceptado: false
         };
         this.addMentor(this.mentoria);
+      }else{
+        console.log('No se seleccionó mentor');
       }
     } else {
       this.document.markAllAsTouched();
@@ -126,7 +127,6 @@ export class CrearProyectoComponent {
           }
         );
         alert("Proyecto creado exitosamente.");
-        this.router.navigate(['/pantalla-principal']);
       })
       .catch((error) => {
         alert("Error al crear el proyecto." + error);
@@ -146,6 +146,7 @@ export class CrearProyectoComponent {
     const selectedMentor = this.mentors.find(mentor => mentor.nombre === selectedMentorName);
     if (selectedMentor) {
       this.selectedMentorEmail = selectedMentor.correo;
+      this.selectedMentor = selectedMentor.nombre;
     }
   }
   addMentor(newMentor: any) {

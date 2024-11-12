@@ -5,7 +5,7 @@
       <div class="form-group">
         <label for="project">Proyecto:</label>
         <select id="project" formControlName="project" required>
-          <option *ngFor="let project of projects" [value]="project">{{ project }}</option>
+          <option *ngFor="let project of projects" [value]="project.nombre">{{ project.nombre }}</option>
         </select>
       </div>
       <div class="form-group">

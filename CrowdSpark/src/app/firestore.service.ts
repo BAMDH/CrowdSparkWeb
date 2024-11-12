@@ -159,4 +159,10 @@ export class FirestoreService {
       })))
     );
   }
+
+  getProyectosByMentor(correo: string | null): Observable<any[]> {
+    const proyectosRef = collection(this.firestore, 'Mentoria');
+    const q = query(proyectosRef, where('mentor', '==', correo));
+    return collectionData(q);
+  }
 }
