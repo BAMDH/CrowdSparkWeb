@@ -3,7 +3,7 @@ import { ReactiveFormsModule, FormGroup, FormControl, Validators, FormBuilder } 
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FirestoreService } from '../firestore.service';
-
+import { EmailService } from '../email.service';
 @Component({
   selector: 'app-agendar-sesion',
   standalone: true,
@@ -16,6 +16,7 @@ export class AgendarSesionComponent {
   projects: string[] = ['Proyecto 1', 'proyecto 2', 'Proyecto 3', 'Proyecto 4'];
 
   constructor(
+    private emailService: EmailService,
     private firestoreService: FirestoreService,
     private router: Router,
     private fb: FormBuilder

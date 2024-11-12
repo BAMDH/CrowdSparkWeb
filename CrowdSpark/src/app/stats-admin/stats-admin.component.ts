@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
+  standalone:true,
   selector: 'app-stats-admin',
   templateUrl: './stats-admin.component.html',
   styleUrls: ['./stats-admin.component.css']
