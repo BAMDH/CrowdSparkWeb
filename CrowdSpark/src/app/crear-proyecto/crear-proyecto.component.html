@@ -59,5 +59,12 @@
     <!-- Botón para solicitar mentor -->
     <button type="button" *ngIf="notMentor" (click)="solicitarMentor()">Solicitar Mentor</button>
     
+    <div *ngIf="showMentorCombobox" class="form-group">
+        <label for="mentor">Seleccionar Mentor:</label>
+        <select id="mentor" [(ngModel)]="selectedMentor" required>
+            <option *ngFor="let mentor of mentors" [value]="mentor.nombre">{{ mentor.nombre }}</option>
+        </select>
+    </div>
+
     <button type="submit">Crear Proyecto</button>
 </form>

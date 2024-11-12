@@ -149,4 +149,9 @@ export class FirestoreService {
       map(snapshot => !snapshot.empty) 
     );
   }
+  getMentors(): Observable<any[]> {
+    const collectionRef = collection(this.firestore, 'Usuarios');
+    const q = query(collectionRef, where('isMentor', '==', true));
+    return collectionData(q);
+  }
 }

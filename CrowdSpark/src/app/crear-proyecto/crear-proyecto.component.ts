@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ReactiveFormsModule, FormGroup, FormControl, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import { ReactiveFormsModule, FormGroup, FormsModule, FormControl, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { EmailService } from '../email.service';
 import { FirestoreService } from '../firestore.service';
 import { Router } from '@angular/router';
@@ -10,7 +10,7 @@ import { firstValueFrom } from 'rxjs';
 @Component({
   selector: 'app-crear-proyecto',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, FormsModule],
   templateUrl: './crear-proyecto.component.html',
   styleUrl: './crear-proyecto.component.css'
 })
@@ -21,6 +21,9 @@ export class CrearProyectoComponent {
   imagePreview: string | ArrayBuffer | null = null; // Para almacenar la vista previa de la imagen
   imageFile: File | null = null; // Para almacenar el archivo de imagen seleccionado
   notMentor: boolean = true;
+  showMentorCombobox: boolean = false;
+  mentors: any[] = [];
+  selectedMentor: string = '';
 
   document = new FormGroup({
     projectName: new FormControl('', [Validators.required]),
@@ -118,13 +121,18 @@ export class CrearProyectoComponent {
   }
 
   solicitarMentor() {
-    // Lógica para solicitar mentor
-    console.log("Se ha solicitado un mentor.");
-    alert("¡Mentor solicitado exitosamente!");
-    
-    // Si deseas navegar a otra pantalla o realizar alguna acción adicional, puedes hacerlo aquí:
-    //this.router.navigate(['/solicitar-mentor']);
+    this.showMentorCombobox = !this.showMentorCombobox;
+    if(this.showMentorCombobox){
+      this.loadMentors();
+    }
   }
+
+  loadMentors() {
+    this.firestoreService.getMentors().subscribe((mentors: any[]) => {
+      this.mentors = mentors;
+    });
+  }
+
 
   checkMentor() {
     this.firestoreService.checkMentor(this.correoUsuario).subscribe((isMentor: boolean) => {
