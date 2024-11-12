@@ -45,4 +45,27 @@ export class AgendarSesionComponent {
     this.router.navigate(['/pagina-mentor']);
   }
 
+  addSesion(newSession: any) {
+    // Llamamos al servicio para agregar el documento
+    this.firestoreService.addDocument('Sesion', newSession)
+      .then(() => {
+        this.emailService.sendEmail(newSession['correo'], "Registro CrowdSpark", 'Felicidades, se ha registrado exitosamente en CrowdSpark').subscribe(
+          response => {
+            console.log('Correo enviado con éxito:', response);
+    
+          },
+          error => {
+            console.error('Error al enviar el correo:', error);
+          }
+        );
+        console.log('Sesion agregada correctamente');
+        alert("Sesion agendada exitosamente.");
+        this.router.navigate(['/pagina-mentor'])
+      })
+      .catch((error) => {
+        alert("Llene todos los campos.");
+        console.error('Error al agendar sesion:', error);
+      });
+  }
+
 }

@@ -152,6 +152,11 @@ export class FirestoreService {
   getMentors(): Observable<any[]> {
     const collectionRef = collection(this.firestore, 'Usuarios');
     const q = query(collectionRef, where('isMentor', '==', true));
-    return collectionData(q);
+    return collectionData(q, { idField: 'id' }).pipe(
+      map((mentors: any[]) => mentors.map(mentor => ({
+        nombre: mentor.nombre,
+        correo: mentor.correo
+      })))
+    );
   }
 }
