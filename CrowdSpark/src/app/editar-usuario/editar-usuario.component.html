@@ -1,36 +1,46 @@
 <div class="edit-user-container">
-    <div class="header">
-        <span (click)="cambiarPantalla()" id="backArrow">←</span>
+  <div class="header">
+    <span (click)="cambiarPantalla()" id="backArrow">←</span>
+  </div>
+  <form id="editUserForm" [formGroup]="document">
+    <!-- Campos del formulario existentes -->
+    <div class="form-group">
+      <label for="fullName">Nombre Completo:</label>
+      <input type="text" id="fullName" name="fullName" formControlName="fullName" required>
     </div>
-    <form id="editUserForm" [formGroup]="document">
-        <div class="form-group">
-          <label for="fullName">Nombre Completo:</label>
-          <input type="text" id="fullName" name="fullName" formControlName="fullName" required>
-        </div>
-        <div class="form-group">
-          <label for="idNumber">Cédula:</label>
-          <input type="number" id="idNumber" name="idNumber" formControlName="idNumber" required>
-        </div>
-        <div class="form-group">
-          <label for="workArea">Área de Trabajo:</label>
-          <input type="text" id="workArea" name="workArea" formControlName="workArea" required>
-        </div>
-        <div class="form-group">
-          <label for="initialAmount">Cantidad de Dinero:</label>
-          <input type="number" id="initialAmount" name="initialAmount" formControlName="initialAmount" required>
-        </div>
-        <div class="form-group">
-          <label for="phone">Teléfono:</label>
-          <input type="number" id="phone" name="phone" formControlName="phone" required>
-        </div>
-        <div class="form-group">
-          <label for="password">Contraseña:</label>
-          <input type="password" id="password" name="password" formControlName="regPassword" required>
-        </div>
-        <div class="form-group">
-          <label for="confirmPassword">Confirmación de contraseña:</label>
-          <input type="password" id="confirmPassword" name="confirmPassword" formControlName="confirmPassword" required>
-        </div>
-        <button type="button" (click)="updateUsuario()">Actualizar Usuario</button>
-    </form>
+    <div class="form-group">
+      <label for="idNumber">Cédula:</label>
+      <input type="number" id="idNumber" name="idNumber" formControlName="idNumber" required>
+    </div>
+    <div class="form-group">
+      <label for="workArea">Área de Trabajo:</label>
+      <input type="text" id="workArea" name="workArea" formControlName="workArea" required>
+    </div>
+    <div class="form-group">
+      <label for="initialAmount">Cantidad de Dinero:</label>
+      <input type="number" id="initialAmount" name="initialAmount" formControlName="initialAmount" required>
+    </div>
+    <div class="form-group">
+      <label for="phone">Teléfono:</label>
+      <input type="number" id="phone" name="phone" formControlName="phone" required>
+    </div>
+    <div class="form-group">
+      <label for="password">Contraseña:</label>
+      <input type="password" id="password" name="password" formControlName="regPassword" required>
+    </div>
+    <div class="form-group">
+      <label for="confirmPassword">Confirmación de contraseña:</label>
+      <input type="password" id="confirmPassword" name="confirmPassword" formControlName="confirmPassword" required>
+    </div>
+    <button type="button" (click)="updateUsuario()">Actualizar Usuario</button>
+
+    <div class="form-group">
+      <label for="mentorReasons">Solicitud para ser mentor:</label>
+      <textarea type="text" id="mentorReasons" formControlName="mentorReasons" rows="4" required></textarea>
+    </div>
+
+    <!-- Botones -->
+    
+    <button type="button" (click)="sendMentorRequest()">Solicitar Posición de Mentor</button>
+  </form>
 </div>
