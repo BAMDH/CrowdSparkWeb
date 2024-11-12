@@ -123,7 +123,7 @@ export class CrearProyectoComponent {
     alert("¡Mentor solicitado exitosamente!");
     
     // Si deseas navegar a otra pantalla o realizar alguna acción adicional, puedes hacerlo aquí:
-    // this.router.navigate(['/solicitar-mentor']);
+    //this.router.navigate(['/solicitar-mentor']);
   }
 
   checkMentor() {

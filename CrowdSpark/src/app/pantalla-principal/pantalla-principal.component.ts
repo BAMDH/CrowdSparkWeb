@@ -88,6 +88,10 @@ export class PantallaPrincipalComponent {
     this.router.navigate(['/editar-usuario']);
   }
 
+  sesiones() {
+    this.router.navigate(['/sesiones']);
+  }
+
   cerrarSesion() {
     this.router.navigate(['/inicio']);
   }

@@ -19,6 +19,8 @@ import { AgendarSesionComponent } from './agendar-sesion/agendar-sesion.componen
 import { ProyectosPendientesComponent } from './proyectos-pendientes/proyectos-pendientes.component';
 import { SolicitudesMentoriaComponent } from './solicitudes-mentoria/solicitudes-mentoria.component';
 import { ValidarProyectoComponent } from './validar-proyecto/validar-proyecto.component';
+import { SesionesPendientesComponent } from './sesiones-pendientes/sesiones-pendientes.component';
+import { PagarSesionComponent } from './pagar-sesion/pagar-sesion.component';
 
 export const routes: Routes = [
     {path: 'registro', component: RegistroComponent},
@@ -41,4 +43,7 @@ export const routes: Routes = [
     {path: 'agendar-sesion', component: AgendarSesionComponent },
     {path: 'proyectos-pendientes', component: ProyectosPendientesComponent },
     {path: 'solicitudes-mentoria', component: SolicitudesMentoriaComponent },
-    {path: 'validar-proyecto/:nombre', component: ValidarProyectoComponent }];
+    {path: 'validar-proyecto/:nombre', component: ValidarProyectoComponent },
+    {path: 'sesiones-pendientes', component: SesionesPendientesComponent },
+    {path: 'pagar-sesion/:nombre', component: PagarSesionComponent }
+];
