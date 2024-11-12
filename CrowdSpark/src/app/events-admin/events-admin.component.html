@@ -17,7 +17,7 @@
         
         <div class="form-group">
             <label for="participants">Registro de Participantes:</label>
-            <input id="participants" formControlName="participants" placeholder="Ej. 50 participantes" required>
+            <input type = 'number' id="participants" formControlName="participants" placeholder="Ej. 50 participantes" required>
         </div>
         
         <div class="form-group">
@@ -25,7 +25,7 @@
             <input id="materials" formControlName="materials" placeholder="Link o archivo" required>
         </div>
         
-        <button type="submit" [disabled]="eventForm.invalid">Crear Evento</button>
+        <button (click)="onSubmit()" type="submit" [disabled]="eventForm.invalid">Crear Evento</button>
         <button type="button" (click)="goBack()">Volver</button>
     </form>
 </div>

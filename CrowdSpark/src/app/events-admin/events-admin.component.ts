@@ -13,7 +13,7 @@ export class EventsAdminComponent {
   title = 'Crear Evento';
   eventForm = new FormGroup({
     eventName: new FormControl('', Validators.required),
-    presentationType: new FormControl('presencial', Validators.required),
+    presentationType: new FormControl('Presencial', Validators.required),
     participants: new FormControl('', Validators.required),
     materials: new FormControl('', Validators.required)
   });
@@ -27,6 +27,9 @@ export class EventsAdminComponent {
       this.router.navigate(['/main-admin']);
     }
   }*/
+ onSubmit(){
+
+ }
 
   goBack() {
     this.router.navigate(['/main-admin']);

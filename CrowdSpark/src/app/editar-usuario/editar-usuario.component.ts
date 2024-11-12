@@ -82,9 +82,8 @@ export class EditarUsuarioComponent {
     );
   }
 
-  updateUsuario() {
-    // código de updateUsuario ...
-  }
+  
+
 
   validatePositiveNumber(control: AbstractControl): ValidationErrors | null {
     const value = control.value;
@@ -109,4 +108,69 @@ export class EditarUsuarioComponent {
   cambiarPantalla() {
     this.router.navigate(['/pantalla-principal']);
   }
+  updateUsuario() {
+    const control = this.document.get('initialAmount');
+    const control2 = this.document.get('confirmPassword');
+    this.validatePasswords();
+    if (control?.invalid){
+      alert("El monto no puede ser negativo")
+    }else if(control2?.invalid){
+      alert("Las contraseñas deben ser iguales")
+    }else{
+    const updatedUserData = this.document.value;
+    const updateData: any = {};
+  // Verificar si cada campo tiene un valor no vacío
+  if (updatedUserData.fullName && updatedUserData.fullName.trim() !== '') {
+    updateData.nombre = updatedUserData.fullName;
+  }
+  if (updatedUserData.idNumber && updatedUserData.idNumber.toString().trim() !== '') {
+    updateData.cedula = updatedUserData.idNumber;
+  }
+  if (updatedUserData.workArea && updatedUserData.workArea.trim() !== '') {
+    updateData.areaTrabajo = updatedUserData.workArea;
+  }
+  if (updatedUserData.initialAmount && updatedUserData.initialAmount.toString().trim() !== '') {
+    updateData.dinero = updatedUserData.initialAmount;
+  }
+  if (updatedUserData.phone && updatedUserData.phone.toString().trim() !== '') {
+    updateData.telefono = updatedUserData.phone;
+  }
+  if (updatedUserData.regPassword && updatedUserData.regPassword.trim() !== '') {
+    updateData.contraseña = updatedUserData.regPassword;
+  }
+
+
+  // Si hay datos para actualizar (al menos un campo no está vacío)
+  if (Object.keys(updateData).length > 0 && this.correoUsuario) {
+    // Obtener el usuario por correo para actualizarlo
+    this.firestoreService.getUsuariosByCorreo(this.correoUsuario)
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          const docId = doc.id;
+          // Realizar la actualización en Firestore
+          this.firestoreService.updateDocument('Usuarios', docId, updateData)
+            .then(() => {
+              this.emailService.sendEmail(this.correoUsuario+'', "Usuario Editado CrowdSpark", 'Los cambios en su perfil han sido correctamente realizados.').subscribe(
+                response => {
+                  console.log('Correo enviado con éxito:', response);
+          
+                },
+                error => {
+                  console.error('Error al enviar el correo:', error);
+                }
+              );
+              console.log('Usuario actualizado correctamente');
+              alert("Usuario actualizado exitosamente.");
+              this.router.navigate(['/pantalla-principal']);
+            })
+            .catch((error) => {
+              console.error('Error al actualizar el usuario:', error);
+            });
+        });
+      });
+  } else {
+    console.log('No se han realizado cambios en los campos o no hay correo disponible.');
+  }
+}
+}
 }

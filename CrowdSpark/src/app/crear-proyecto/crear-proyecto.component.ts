@@ -92,16 +92,7 @@ export class CrearProyectoComponent {
         idEncargado: this.correoUsuario,
       };
       this.crearProyecto();
-      if (this.selectedMentor !== '') {
-        this.mentoria = {
-          mentor: this.selectedMentorEmail,
-          proyecto: this.nuevoProyecto['nombre'],
-          aceptado: false
-        };
-        this.addMentor(this.mentoria);
-      }else{
-        console.log('No se seleccionó mentor');
-      }
+      
     } else {
       this.document.markAllAsTouched();  // Marca todos los campos como tocados para activar los errores
       this.imageRequired = !this.imageFile; // Establece el error si falta la imagen
@@ -129,6 +120,17 @@ export class CrearProyectoComponent {
             console.error('Error al enviar el correo:', error);
           }
         );
+        if (this.selectedMentor !== '') {
+          this.mentoria = {
+            mentor: this.selectedMentorEmail,
+            proyecto: this.nuevoProyecto['nombre'],
+            aceptado: false
+          };
+          this.addMentor(this.mentoria);
+        }else{
+          console.log('No se seleccionó mentor');
+        }
+        this.router.navigate(['/pantalla-principal']);
         alert("Proyecto creado exitosamente.");
       })
       .catch((error) => {
