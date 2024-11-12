@@ -26,6 +26,7 @@ export class CrearProyectoComponent {
   selectedMentor: string = '';
   selectedMentorEmail: string = '';
   mentoria: any;
+  imageRequired: boolean = false; // Nueva propiedad para controlar el mensaje de error
 
   document = new FormGroup({
     projectName: new FormControl('', [Validators.required]),
@@ -57,8 +58,9 @@ export class CrearProyectoComponent {
       reader.onload = () => {
         this.imagePreview = reader.result;
       };
-      reader.readAsDataURL(file);
-      this.imageFile = file;
+      reader.readAsDataURL(file); // Convierte la imagen a base64
+      this.imageFile = file; // Guarda el archivo para su posterior carga
+      this.imageRequired = false; // Resetea el mensaje de error cuando se selecciona una imagen
     }
   }
 
@@ -77,7 +79,7 @@ export class CrearProyectoComponent {
   }
 
   onSubmit() {
-    if (this.document.valid) {
+    if (this.document.valid && this.imageFile) {
       this.nuevoProyecto = {
         categoria: this.document.get('category')?.value,
         descripcion: this.document.get('projectDescription')?.value,
@@ -100,7 +102,8 @@ export class CrearProyectoComponent {
         this.addMentor(this.mentoria);
       }
     } else {
-      this.document.markAllAsTouched();
+      this.document.markAllAsTouched();  // Marca todos los campos como tocados para activar los errores
+      this.imageRequired = !this.imageFile; // Establece el error si falta la imagen
       console.log('Formulario inválido');
     }
   }
