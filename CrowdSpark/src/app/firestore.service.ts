@@ -108,4 +108,37 @@ export class FirestoreService {
       map(snapshot => !snapshot.empty) // Retorna true si se encuentra un usuario con estado "inactivo"
     );
   }
+  getApprovedProjects(): Observable<any[]> {
+    const collectionRef = collection(this.firestore, 'Proyecto');
+    const q = query(collectionRef, where('aprobado', '==', true));
+    return collectionData(q);
+  }
+  getPendingProjects(): Observable<any[]> {
+    const collectionRef = collection(this.firestore, 'Proyecto');
+    const q = query(collectionRef, where('aprobado', '==', false));
+    return collectionData(q);
+  }
+  approveProject(name: string): Observable<void> {
+    const collectionName = 'Proyecto';
+    const collectionRef = collection(this.firestore, collectionName);
+    const q = query(collectionRef, where("nombre", "==", name)); // Filtrar por projectName
+    return from(getDocs(q)).pipe(
+      map(snapshot => {
+        if (!snapshot.empty) {
+          const updatePromises = snapshot.docs.map(docSnapshot => {
+            const projectDocRef = doc(this.firestore, `${collectionName}/${docSnapshot.id}`);
+            return updateDoc(projectDocRef, { aprobado: true }).catch(error => {
+              console.error(`Error updating document ${docSnapshot.id}:`, error);
+              throw error;
+            });
+          });
+          return Promise.all(updatePromises);
+        } else {
+          console.warn(`No documents found with name: ${name}`);
+          return Promise.resolve();
+        }
+      }),
+      map(() => void 0) // Ensure the observable returns void
+    );
+  }
 }

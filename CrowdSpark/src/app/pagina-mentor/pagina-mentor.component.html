@@ -1,23 +1,12 @@
 <span (click)="cambiarPantalla()" id="backArrow">←</span>
 <div class="mentor-container">
     <h2>Bienvenido Mentor</h2>
-    <form [formGroup]="mentorForm" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="sessionDate">Fecha de la sesión:</label>
-        <input type="date" id="sessionDate" formControlName="sessionDate" required>
-      </div>
-  
-      <div class="form-group">
-        <label for="sessionTime">Hora de la sesión:</label>
-        <input type="time" id="sessionTime" formControlName="sessionTime" required>
-      </div>
-  
-      <div class="form-group">
-        <label for="price">Precio de la sesión:</label>
-        <input type="number" id="price" formControlName="price" required min="0" placeholder="Precio en $">
-      </div>
-  
-      <button type="submit" [disabled]="mentorForm.invalid">Agendar sesión</button>
-    </form>
+    <div class="mentor-container">
+      <ul class="menu">
+        <li><a (click)="agendarSesion()">Agendar Sesion</a></li>
+        <li><a (click)="proyectosPendientes()">Validar Proyectos</a></li>
+        <li><a (click)="solicitudesMentoria()">Solicitudes de Mentoria</a></li>
+    </ul>
+    </div>
   </div>
   

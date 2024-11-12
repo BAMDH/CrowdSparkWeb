@@ -1,18 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FirestoreService } from '../firestore.service';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-pantalla-principal',
+  selector: 'app-proyectos-pendientes',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
-  templateUrl: './pantalla-principal.component.html',
-  styleUrls: ['./pantalla-principal.component.css']
+  templateUrl: './proyectos-pendientes.component.html',
+  styleUrl: './proyectos-pendientes.component.css'
 })
-
-export class PantallaPrincipalComponent {
+export class ProyectosPendientesComponent {
   proyectos: any[] = [];  // Variable para almacenar los proyectos
   selectedFilter: string = 'nombre';  // Opción seleccionada en el comboBox
 
@@ -26,7 +25,7 @@ export class PantallaPrincipalComponent {
   }
 
   cargarProyectos() {
-    this.firestoreService.getApprovedProjects().subscribe((data: any[]) => {
+    this.firestoreService.getPendingProjects().subscribe((data: any[]) => {
       this.proyectos = data;  // Guardar los datos en la variable proyectos
       this.ordenarProyectos();  // Ordenar los proyectos inicialmente
     });
@@ -57,32 +56,11 @@ export class PantallaPrincipalComponent {
     this.ordenarProyectos();  // Reordenar los proyectos según el filtro
   }
   
-  verProyecto(proyecto: any) {
-    this.router.navigate(['/ver-proyecto', proyecto.nombre]);  // Pasar el nombre del proyecto como parámetro
+  validarProyecto(proyecto: any) {
+    this.router.navigate(['/validar-proyecto', proyecto.nombre]);  // Pasar el nombre del proyecto como parámetro
   }
 
-  crearProyecto() {
-    this.router.navigate(['/crear-proyecto']);
-  }
-
-  editarProyecto() {
-    this.router.navigate(['/editar-proyecto']);
-  }
-
-  historial() {
-    this.router.navigate(['/historial']);
-  }
-
-  editarUsuario() {
-    this.router.navigate(['/editar-usuario']);
-  }
-
-  cerrarSesion() {
-    this.router.navigate(['/inicio']);
-  }
-
-  // Método para redirigir a la página de mentor
-  irAPaginaMentor() {
+  cambiarPantalla() {
     this.router.navigate(['/pagina-mentor']);
   }
 }

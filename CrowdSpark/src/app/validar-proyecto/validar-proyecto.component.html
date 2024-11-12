@@ -1,0 +1,56 @@
+<span (click)="cambiarPantalla()" id="backArrow">←</span>
+<div class="dashboard-container">
+    <!-- Barra lateral izquierda -->
+    <div class="sidebar">
+        <ul class="menu">
+            <h1>Checklist</h1>
+            <li>
+                <label>
+                    <input type="checkbox" [(ngModel)]="checklist.item1"> El objetivo de financiación es menor a $10000.
+                </label>
+            </li>
+            <li>
+                <label>
+                    <input type="checkbox" [(ngModel)]="checklist.item2"> La imagen del proyecto es apropiada.
+                </label>
+            </li>
+            <li>
+                <label>
+                    <input type="checkbox" [(ngModel)]="checklist.item3"> La categoría es válida.
+                </label>
+            </li>
+            <li>
+                <label>
+                    <input type="checkbox" [(ngModel)]="checklist.item4"> La descripción es adecuada.
+                </label>
+            </li>
+            <li>
+                <label>
+                    <input type="checkbox" [(ngModel)]="checklist.item5"> La fecha límite es mayor a 1 semana.
+                </label>
+            </li>
+            <button (click)="validar()">Validar</button>
+        </ul>
+    </div>
+    
+    <!-- Contenido principal a la derecha -->
+    <div class="main-content">
+        <div *ngIf="proyecto" class="project-detail-container">
+            <div class="project-detail">
+                <div class="project-header">
+                    <h1>{{ proyecto.nombre }}</h1>
+                    <img [src]="proyecto.imagen" alt="Imagen del proyecto" class="project-image">
+                </div>
+                
+                <div class="project-info">
+                    <p><strong>Categoría:</strong> {{ proyecto.categoria }}</p>
+                    <p><strong>Descripción:</strong> {{ proyecto.descripcion }}</p>
+                    <p><strong>Fecha Límite:</strong> {{ proyecto.fechaLimite }}</p>
+                    <p><strong>Monto:</strong> ${{ proyecto.monto }}</p>
+                    <p><strong>Objetivo de Financiación:</strong> ${{ proyecto.objetivoFinanciacion }}</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
