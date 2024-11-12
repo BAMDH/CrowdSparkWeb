@@ -62,7 +62,18 @@ export class InicioComponent {
   }
   
   onAdminLogin() {
-    this.router.navigate(['/main-admin']);
+    //Email:crowdspark58@gmail.com
+    //PSW: 1234
+    const email = this.loginForm.get('email')?.value;
+    const password = this.loginForm.get('password')?.value;
+
+    if (email === 'crowdspark58@gmail.com' && password === '1234'){
+      this.router.navigate(['/main-admin']);
+    } else {
+      // Muestra un mensaje de error si el login falla
+      this.loginError ='Correo o contraseña incorrectos.';
+    }
+
   }
 
   cambiarPantalla() {
