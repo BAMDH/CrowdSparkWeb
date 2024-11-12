@@ -1,1 +1,41 @@
-<p>sesiones-pendientes works!</p>
+<div class="dashboard-container">
+    <div class="main-content">
+        <!-- Sección de logo y título -->
+        <div class="header-section">
+            <img src="images/marca.jpg" alt="Marca" class="center-logo">
+            <h2 class="title">Solicitudes de Mentoria</h2>
+        </div>
+        <span (click)="cambiarPantalla()" id="backArrow">←</span>
+
+        <!-- Cuadro de texto estático debajo del título -->
+        <div class="static-text-box">
+            <p>Estas son las solicitudes de mentoria pendientes.</p>
+        </div>
+
+        <!-- Tabla para mostrar las solicitudes -->
+        <div class="donations-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Mentor</th>
+                        <th>Proyecto</th>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Precio</th>
+                        <th>Pagar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let sesion of sessions">
+                        <td>{{ sesion.mentor }}</td>
+                        <td>{{ sesion.project }}</td>
+                        <td>{{ sesion.sessionDate }}</td>
+                        <td>{{ sesion.sessionTime }}</td>
+                        <td>{{ sesion.price }}</td>
+                        <td><button (click)="pagarSesion(sesion)">Pagar</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

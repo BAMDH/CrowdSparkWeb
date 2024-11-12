@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { Firestore, collection, doc, getDoc, setDoc, addDoc, collectionData, query, where, getDocs, updateDoc, DocumentData, DocumentReference, deleteDoc } from '@angular/fire/firestore';
 import { Observable, from } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
@@ -214,6 +214,100 @@ export class FirestoreService {
           console.warn(`No documents found with project: ${proyecto}`);
           return Promise.resolve();
         }
+      }),
+      map(() => void 0) // Ensure the observable returns void
+    );
+  }
+  getPendingSessions(correo: string | null): Observable<any[]> {
+    const proyectosRef = collection(this.firestore, 'Proyecto');
+    const proyectosQuery = query(proyectosRef, where('idEncargado', '==', correo));
+
+    return from(getDocs(proyectosQuery)).pipe(
+      switchMap(proyectosSnapshot => {
+        const projectNames = proyectosSnapshot.docs.map(doc => doc.data()['nombre']);
+        if (projectNames.length === 0) {
+          return [];
+        }
+        const sesionesRef = collection(this.firestore, 'Sesion');
+        const sesionesQuery = query(sesionesRef, where('project', 'in', projectNames), where('pagado', '==', false));
+        return collectionData(sesionesQuery);
+      })
+    );
+  }
+
+  paySession(session: any): Observable<void> {
+    const collectionName = 'Sesion';
+    const collectionRef = collection(this.firestore, collectionName);
+    const q = query(collectionRef, where("project", "==", session.project), where("sessionTime", "==", session.sessionTime), where("sessionDate", "==", session.sessionDate), where("price", "==", session.price), where("mentor", "==", session.mentor)); 
+    let projectRef: DocumentReference<DocumentData>;
+    let projectSnapshot: any;
+    return from(getDocs(q)).pipe(
+      switchMap(snapshot => {
+        if (!snapshot.empty) {
+          const updatePromises = snapshot.docs.map(docSnapshot => {
+            const projectDocRef = doc(this.firestore, `${collectionName}/${docSnapshot.id}`);
+            projectRef = projectDocRef;
+            projectSnapshot = docSnapshot;
+            return updateDoc(projectDocRef, { pagado: true }).catch(error => {
+              console.error(`Error updating document ${docSnapshot.id}:`, error);
+              throw error;
+            });
+          });
+          return from(Promise.all(updatePromises));
+        } else {
+          console.warn(`No documents found with the specified session details.`);
+          return Promise.resolve();
+        }
+      }),
+      switchMap(() => {
+        // Step 1: Get the idEncargado (user email) for the given project
+        const proyectosRef = collection(this.firestore, 'Proyecto');
+        const proyectosQuery = query(proyectosRef, where('nombre', '==', session.project));
+        return from(getDocs(proyectosQuery)).pipe(
+          switchMap(proyectosSnapshot => {
+            if (!proyectosSnapshot.empty) {
+              const projectDoc = proyectosSnapshot.docs[0];
+              const idEncargado = projectDoc.data()['idEncargado'];
+
+              // Step 2: Get the current dinero value for the user
+              const usuariosRef = collection(this.firestore, 'Usuarios');
+              const usuarioQuery = query(usuariosRef, where('correo', '==', idEncargado));
+              return from(getDocs(usuarioQuery)).pipe(
+                switchMap(usuarioSnapshot => {
+                  if (!usuarioSnapshot.empty) {
+                    const usuarioDoc = usuarioSnapshot.docs[0];
+                    const usuarioDocRef = doc(this.firestore, `Usuarios/${usuarioDoc.id}`);
+                    const currentDinero = usuarioDoc.data()['dinero'] || 0;
+                    const newDinero = currentDinero - session.price;
+                    if (newDinero < 0) {
+                      console.error(`No tiene dinero suficiente para pagar la sesion.`);
+                      alert("No tiene dinero suficiente para pagar la sesion.");
+                      return updateDoc(projectRef, { pagado: false }).catch(error => {
+                        console.error(`Error updating document ${projectSnapshot.id}:`, error);
+                        alert("No tiene dinero suficiente para pagar la sesion.");
+                        throw error;
+                      });
+                    } else {
+                      // Step 3: Update the dinero value for the user
+                      console.log("Sesion pagada");
+                      alert("Sesion pagada");
+                      return from(updateDoc(usuarioDocRef, { dinero: newDinero }));
+                    }
+                  } else {
+                    console.warn(`No user found with idEncargado: ${idEncargado}`);
+                    return updateDoc(projectRef, { pagado: false }).catch(error => {
+                      console.error(`Error updating document ${projectSnapshot.id}:`, error);
+                      throw error;
+                    });
+                  }
+                })
+              );
+            } else {
+              console.warn(`No project found with name: ${session.project}`);
+              return Promise.resolve();
+            }
+          })
+        );
       }),
       map(() => void 0) // Ensure the observable returns void
     );
